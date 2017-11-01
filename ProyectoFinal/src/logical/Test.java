@@ -4,6 +4,8 @@ public class Test {
 	private int hola;
 	private double heyyyy;
 	private String yorman;
+	private double tangananika;
+	private int tanganana;
 
 	public Test(int hola, double heyyyy, String yorman) {
 		super();
