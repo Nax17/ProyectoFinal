@@ -10,6 +10,15 @@ public class Contrato {
 	private Proyecto proyecto;
 	private long monto;
 	
+	public Contrato(Date fechaInicio, Date fechaFinal, String id, Cliente cliente, Proyecto proyecto, long monto) {
+		super();
+		this.fechaInicio = fechaInicio;
+		this.fechaFinal = fechaFinal;
+		this.id = id;
+		this.cliente = cliente;
+		this.proyecto = proyecto;
+		this.monto = monto;
+	}
 	public Date getFechaInicio() {
 		return fechaInicio;
 	}
