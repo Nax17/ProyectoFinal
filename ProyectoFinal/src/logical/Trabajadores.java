@@ -2,7 +2,7 @@ package logical;
 
 public abstract class Trabajadores {
 
-		protected String id;
+		protected String cedula;
 		protected String nombre;
 		protected String direccion;
 		protected String sexo;
@@ -16,7 +16,7 @@ public abstract class Trabajadores {
 		public Trabajadores(String id, String nombre, String direccion, String sexo, int edad, long salario,
 				Proyecto proyecto, String evaluacion) {
 			super();
-			this.id = id;
+			this.cedula = id;
 			this.nombre = nombre;
 			this.direccion = direccion;
 			this.sexo = sexo;
@@ -27,10 +27,10 @@ public abstract class Trabajadores {
 		}
 		
 		public String getId() {
-			return id;
+			return cedula;
 		}
 		public void setId(String id) {
-			this.id = id;
+			this.cedula = id;
 		}
 		public String getNombre() {
 			return nombre;
