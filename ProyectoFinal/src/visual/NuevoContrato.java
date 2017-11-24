@@ -52,4 +52,5 @@ public class NuevoContrato extends JDialog {
 		}
 	}
 
+	
 }

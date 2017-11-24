@@ -151,6 +151,7 @@ public class NuevoCliente extends JDialog {
 			model.setColumnIdentifiers(columnNames);
 			table.setModel(model);
 			scrollPane.setViewportView(table);
+			
 		}
 	}
 }

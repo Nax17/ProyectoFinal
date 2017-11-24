@@ -215,6 +215,7 @@ public class NuevoProyecto extends JDialog {
 			labelLogo.setIcon(new ImageIcon(footimage));
 			labelLogo.setBounds(12, 496, 260, 50);
 			panel.add(labelLogo);
+			
 		}
 	}
 }
