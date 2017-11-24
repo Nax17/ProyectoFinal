@@ -167,6 +167,7 @@ public class Principal extends JFrame {
 		
 		panelList = new JPanel();
 		panelList.setLayout(null);
+		panelList.setVisible(false);
 		panelList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panelList.setBounds(319, 383, 565, 155);
 		panel.add(panelList);
@@ -205,6 +206,7 @@ public class Principal extends JFrame {
 		panelList.add(lblListaDeProyectos);
 		
 		panelAdmin = new JPanel();
+		panelAdmin.setVisible(false);
 		panelAdmin.setBounds(319, 383, 565, 155);
 		panel.add(panelAdmin);
 		panelAdmin.setLayout(null);
@@ -244,12 +246,21 @@ public class Principal extends JFrame {
 		panelAdmin.add(lblEditarContrato);
 		
 		panelClient = new JPanel();
+		panelClient.setVisible(false);
 		panelClient.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panelClient.setBounds(319, 383, 565, 155);
 		panel.add(panelClient);
 		panelClient.setLayout(null);
 		
 		btnNewClient = new JButton("");
+		btnNewClient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				NuevoCliente cli = new NuevoCliente();
+				cli.setLocationRelativeTo(null);
+				cli.setModal(true);
+				cli.setVisible(true);
+			}
+		});
 		btnNewClient.setBackground(SystemColor.scrollbar);
 		Image newClient = new ImageIcon(this.getClass().getResource("/add_client.png")).getImage();
 		btnNewClient.setIcon(new ImageIcon(newClient));
