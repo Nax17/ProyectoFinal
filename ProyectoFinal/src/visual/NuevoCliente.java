@@ -21,6 +21,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class NuevoCliente extends JDialog {
 
@@ -59,11 +60,13 @@ public class NuevoCliente extends JDialog {
 		setTitle("Nuevo Cliente");
 		setBounds(100, 100, 510, 456);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(SystemColor.textHighlightText);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
 			JPanel panel = new JPanel();
+			panel.setBackground(SystemColor.textHighlightText);
 			panel.setBorder(new TitledBorder(null, "Informaci\u00F3n B\u00E1sica", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panel.setBounds(12, 13, 470, 188);
 			contentPanel.add(panel);
@@ -75,6 +78,7 @@ public class NuevoCliente extends JDialog {
 			}
 			
 			textField = new JTextField();
+			textField.setBackground(SystemColor.inactiveCaptionBorder);
 			textField.setBounds(93, 68, 350, 21);
 			panel.add(textField);
 			textField.setColumns(10);
@@ -90,12 +94,14 @@ public class NuevoCliente extends JDialog {
 			}
 			{
 				textField_1 = new JTextField();
+				textField_1.setBackground(SystemColor.inactiveCaptionBorder);
 				textField_1.setColumns(10);
 				textField_1.setBounds(93, 102, 350, 21);
 				panel.add(textField_1);
 			}
 			{
 				textField_2 = new JTextField();
+				textField_2.setBackground(SystemColor.inactiveCaptionBorder);
 				textField_2.setColumns(10);
 				textField_2.setBounds(93, 138, 350, 21);
 				panel.add(textField_2);
@@ -106,6 +112,7 @@ public class NuevoCliente extends JDialog {
 			panel.add(lblId);
 			
 			textField_3 = new JTextField();
+			textField_3.setBackground(SystemColor.inactiveCaptionBorder);
 			textField_3.setEditable(false);
 			textField_3.setBounds(96, 33, 99, 21);
 			panel.add(textField_3);
@@ -126,11 +133,12 @@ public class NuevoCliente extends JDialog {
 					project.setLocationRelativeTo(null);
 					project.setModal(true);
 					project.setVisible(true);
+					dispose();
 				}
 			});
 			Image nextimage = new ImageIcon(this.getClass().getResource("/nexticon.png")).getImage();
 			btnNext.setIcon(new ImageIcon(nextimage));
-			btnNext.setBackground(SystemColor.menu);
+			btnNext.setBackground(SystemColor.inactiveCaptionBorder);
 			btnNext.setBounds(427, 322, 50, 55);
 			contentPanel.add(btnNext);
 		}

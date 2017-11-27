@@ -62,10 +62,13 @@ public class NuevoProyecto extends JDialog {
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
 			JPanel panel = new JPanel();
+			panel.setBackground(SystemColor.textHighlightText);
+			panel.setForeground(SystemColor.desktop);
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			
 			JPanel panel_1 = new JPanel();
+			panel_1.setBackground(SystemColor.textHighlightText);
 			panel_1.setBorder(new TitledBorder(null, "Informaci\u00F3n B\u00E1sica", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panel_1.setBounds(12, 13, 705, 170);
 			panel.add(panel_1);
@@ -76,6 +79,7 @@ public class NuevoProyecto extends JDialog {
 			panel_1.add(lblId);
 			
 			textField = new JTextField();
+			textField.setBackground(SystemColor.inactiveCaptionBorder);
 			textField.setEditable(false);
 			textField.setBounds(90, 34, 116, 21);
 			panel_1.add(textField);
@@ -86,6 +90,7 @@ public class NuevoProyecto extends JDialog {
 			panel_1.add(lblNombre);
 			
 			textField_1 = new JTextField();
+			textField_1.setBackground(SystemColor.inactiveCaptionBorder);
 			textField_1.setBounds(90, 63, 225, 21);
 			panel_1.add(textField_1);
 			textField_1.setColumns(10);
@@ -95,6 +100,7 @@ public class NuevoProyecto extends JDialog {
 			panel_1.add(lblLenguaje);
 			
 			JComboBox comboBox = new JComboBox();
+			comboBox.setBackground(SystemColor.inactiveCaptionBorder);
 			comboBox.setBounds(426, 63, 194, 21);
 			panel_1.add(comboBox);
 			
@@ -107,10 +113,12 @@ public class NuevoProyecto extends JDialog {
 			panel_1.add(lblEstado);
 			
 			JComboBox comboBox_1 = new JComboBox();
+			comboBox_1.setBackground(SystemColor.inactiveCaptionBorder);
 			comboBox_1.setBounds(426, 97, 135, 21);
 			panel_1.add(comboBox_1);
 			
 			JTextPane textPane = new JTextPane();
+			textPane.setBackground(SystemColor.inactiveCaptionBorder);
 			textPane.setBounds(90, 97, 225, 60);
 			panel_1.add(textPane);
 			
@@ -119,12 +127,14 @@ public class NuevoProyecto extends JDialog {
 			panel_1.add(lblCliente);
 			
 			textField_2 = new JTextField();
+			textField_2.setBackground(SystemColor.inactiveCaptionBorder);
 			textField_2.setEditable(false);
 			textField_2.setBounds(426, 33, 267, 21);
 			panel_1.add(textField_2);
 			textField_2.setColumns(10);
 			
 			JPanel panel_2 = new JPanel();
+			panel_2.setBackground(SystemColor.textHighlightText);
 			panel_2.setBorder(new TitledBorder(null, "Trabajadores", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panel_2.setBounds(12, 196, 705, 164);
 			panel.add(panel_2);
@@ -135,6 +145,7 @@ public class NuevoProyecto extends JDialog {
 			panel_2.add(lblTrabajador);
 			
 			JComboBox comboBox_2 = new JComboBox();
+			comboBox_2.setBackground(SystemColor.inactiveCaptionBorder);
 			comboBox_2.setBounds(62, 21, 159, 21);
 			panel_2.add(comboBox_2);
 			
@@ -161,12 +172,14 @@ public class NuevoProyecto extends JDialog {
 			scrollPane_1.setViewportView(table_1);
 			
 			JButton btnDerecha = new JButton("");
+			btnDerecha.setBackground(SystemColor.inactiveCaptionBorder);
 			Image der = new ImageIcon(this.getClass().getResource("/derTable.png")).getImage();
 			btnDerecha.setIcon(new ImageIcon(der));
 			btnDerecha.setBounds(336, 69, 38, 25);
 			panel_2.add(btnDerecha);
 			
 			JButton btnIzquierda = new JButton("");
+			btnIzquierda.setBackground(SystemColor.inactiveCaptionBorder);
 			Image izq = new ImageIcon(this.getClass().getResource("/izqTable.png")).getImage();
 			btnIzquierda.setIcon(new ImageIcon(izq));
 			btnIzquierda.addActionListener(new ActionListener() {
@@ -189,9 +202,18 @@ public class NuevoProyecto extends JDialog {
 			scrollPane_2.setViewportView(table_2);
 			
 			JButton btnNext = new JButton("");
+			btnNext.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					NuevoContrato contr = new NuevoContrato();
+					contr.setLocationRelativeTo(null);
+					contr.setModal(true);
+					contr.setVisible(true);
+					dispose();
+				}
+			});
 			Image nextimage = new ImageIcon(this.getClass().getResource("/nexticon.png")).getImage();
 			btnNext.setIcon(new ImageIcon(nextimage));
-			btnNext.setBackground(SystemColor.menu);
+			btnNext.setBackground(SystemColor.inactiveCaptionBorder);
 			btnNext.setBounds(664, 472, 50, 55);
 			panel.add(btnNext);
 			
@@ -200,9 +222,18 @@ public class NuevoProyecto extends JDialog {
 			panel.add(label);
 			
 			JButton btnBack = new JButton("");
+			btnBack.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					NuevoCliente cli = new NuevoCliente();
+					cli.setLocationRelativeTo(null);
+					cli.setModal(true);
+					cli.setVisible(true);
+					dispose();
+				}
+			});
 			Image backImage = new ImageIcon(this.getClass().getResource("/backicon.png")).getImage();
 			btnBack.setIcon(new ImageIcon(backImage));
-			btnBack.setBackground(SystemColor.menu);
+			btnBack.setBackground(SystemColor.inactiveCaptionBorder);
 			btnBack.setBounds(295, 472, 50, 55);
 			panel.add(btnBack);
 			

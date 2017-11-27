@@ -17,6 +17,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class Principal extends JFrame {
 
@@ -52,6 +53,10 @@ public class Principal extends JFrame {
 	private JPanel panelInfo;
 	private JLabel lblEscojaLaOpcin;
 	private JLabel nameLabel;
+	private JLabel lblNewLabel;
+	private JLabel label;
+	private JLabel lblGrficaPastel;
+	private JLabel lblGrficad;
 
 	/**
 	 * Launch the application.
@@ -79,28 +84,30 @@ public class Principal extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 950, 620);
+		setBounds(100, 100, 1034, 620);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.textHighlightText);
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
 		JPanel barraAzul = new JPanel();
 		barraAzul.setBackground(SystemColor.activeCaption);
-		barraAzul.setBounds(294, 39, 3, 499);
+		barraAzul.setBounds(380, 39, 3, 499);
 		panel.add(barraAzul);
 		
 		logoLabel = new JLabel("");
 		Image logo = new ImageIcon(this.getClass().getResource("/logoimage.png")).getImage();
 		logoLabel.setIcon(new ImageIcon(logo));
-		logoLabel.setBounds(792, 13, 130, 130);
+		logoLabel.setBounds(878, 13, 130, 130);
 		panel.add(logoLabel);
 		
 		btnCliente = new JButton("");
+		btnCliente.setBackground(SystemColor.inactiveCaptionBorder);
 		btnCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				panelClient.setVisible(true);
@@ -111,10 +118,11 @@ public class Principal extends JFrame {
 		});
 		Image client = new ImageIcon(this.getClass().getResource("/client_button.png")).getImage();
 		btnCliente.setIcon(new ImageIcon(client));
-		btnCliente.setBounds(369, 250, 104, 75);
+		btnCliente.setBounds(455, 250, 104, 75);
 		panel.add(btnCliente);
 		
 		btnAdmin = new JButton("");
+		btnAdmin.setBackground(SystemColor.inactiveCaptionBorder);
 		btnAdmin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelClient.setVisible(false);
@@ -125,10 +133,11 @@ public class Principal extends JFrame {
 		});
 		Image admin = new ImageIcon(this.getClass().getResource("/admin_button.png")).getImage();
 		btnAdmin.setIcon(new ImageIcon(admin));
-		btnAdmin.setBounds(568, 250, 104, 75);
+		btnAdmin.setBounds(654, 250, 104, 75);
 		panel.add(btnAdmin);
 		
 		btnList = new JButton("");
+		btnList.setBackground(SystemColor.inactiveCaptionBorder);
 		btnList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelClient.setVisible(false);
@@ -139,24 +148,25 @@ public class Principal extends JFrame {
 		});
 		Image list = new ImageIcon(this.getClass().getResource("/list_button.png")).getImage();
 		btnList.setIcon(new ImageIcon(list));
-		btnList.setBounds(756, 250, 104, 75);
+		btnList.setBounds(842, 250, 104, 75);
 		panel.add(btnList);
 		
 		lblCliente = new JLabel("Cliente");
-		lblCliente.setBounds(399, 327, 45, 16);
+		lblCliente.setBounds(485, 327, 45, 16);
 		panel.add(lblCliente);
 		
 		lblAdministracin = new JLabel("Administraci\u00F3n");
-		lblAdministracin.setBounds(573, 327, 94, 16);
+		lblAdministracin.setBounds(659, 327, 94, 16);
 		panel.add(lblAdministracin);
 		
 		lblListas = new JLabel("Listas");
-		lblListas.setBounds(786, 327, 45, 16);
+		lblListas.setBounds(872, 327, 45, 16);
 		panel.add(lblListas);
 		
 		panelInfo = new JPanel();
+		panelInfo.setBackground(SystemColor.control);
 		panelInfo.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		panelInfo.setBounds(319, 383, 565, 155);
+		panelInfo.setBounds(405, 383, 565, 155);
 		panel.add(panelInfo);
 		panelInfo.setLayout(null);
 		
@@ -169,27 +179,27 @@ public class Principal extends JFrame {
 		panelList.setLayout(null);
 		panelList.setVisible(false);
 		panelList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panelList.setBounds(319, 383, 565, 155);
+		panelList.setBounds(405, 383, 565, 155);
 		panel.add(panelList);
 		
 		btnListClient = new JButton("");
 		Image ListClient = new ImageIcon(this.getClass().getResource("/list_client.png")).getImage();
 		btnListClient.setIcon(new ImageIcon(ListClient));
-		btnListClient.setBackground(SystemColor.scrollbar);
+		btnListClient.setBackground(new Color(255, 255, 255));
 		btnListClient.setBounds(64, 31, 78, 73);
 		panelList.add(btnListClient);
 		
 		btnListWorker = new JButton("");
 		Image ListWorker = new ImageIcon(this.getClass().getResource("/list_worker.png")).getImage();
 		btnListWorker.setIcon(new ImageIcon(ListWorker));
-		btnListWorker.setBackground(SystemColor.scrollbar);
+		btnListWorker.setBackground(new Color(255, 255, 255));
 		btnListWorker.setBounds(241, 31, 78, 73);
 		panelList.add(btnListWorker);
 		
 		btnListProject = new JButton("");
 		Image ListProject = new ImageIcon(this.getClass().getResource("/list_project.png")).getImage();
 		btnListProject.setIcon(new ImageIcon(ListProject));
-		btnListProject.setBackground(SystemColor.scrollbar);
+		btnListProject.setBackground(new Color(255, 255, 255));
 		btnListProject.setBounds(414, 31, 78, 73);
 		panelList.add(btnListProject);
 		
@@ -207,29 +217,37 @@ public class Principal extends JFrame {
 		
 		panelAdmin = new JPanel();
 		panelAdmin.setVisible(false);
-		panelAdmin.setBounds(319, 383, 565, 155);
+		panelAdmin.setBounds(405, 383, 565, 155);
 		panel.add(panelAdmin);
 		panelAdmin.setLayout(null);
 		panelAdmin.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		
 		btnNewWorker = new JButton("");
+		btnNewWorker.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				NuevoTrabajador worker = new NuevoTrabajador();
+				worker.setLocationRelativeTo(null);
+				worker.setModal(true);
+				worker.setVisible(true);
+			}
+		});
 		Image newWorker = new ImageIcon(this.getClass().getResource("/add_worker.png")).getImage();
 		btnNewWorker.setIcon(new ImageIcon(newWorker));
-		btnNewWorker.setBackground(SystemColor.scrollbar);
+		btnNewWorker.setBackground(new Color(255, 255, 255));
 		btnNewWorker.setBounds(64, 31, 78, 73);
 		panelAdmin.add(btnNewWorker);
 		
 		btnNewContract = new JButton("");
 		Image newContract = new ImageIcon(this.getClass().getResource("/add_contract.png")).getImage();
 		btnNewContract.setIcon(new ImageIcon(newContract));
-		btnNewContract.setBackground(SystemColor.scrollbar);
+		btnNewContract.setBackground(new Color(255, 255, 255));
 		btnNewContract.setBounds(241, 31, 78, 73);
 		panelAdmin.add(btnNewContract);
 		
 		btnModifyContract = new JButton("");
 		Image EditContract = new ImageIcon(this.getClass().getResource("/edit_contract.png")).getImage();
 		btnModifyContract.setIcon(new ImageIcon(EditContract));
-		btnModifyContract.setBackground(SystemColor.scrollbar);
+		btnModifyContract.setBackground(new Color(255, 255, 255));
 		btnModifyContract.setBounds(414, 31, 78, 73);
 		panelAdmin.add(btnModifyContract);
 		
@@ -248,7 +266,7 @@ public class Principal extends JFrame {
 		panelClient = new JPanel();
 		panelClient.setVisible(false);
 		panelClient.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panelClient.setBounds(319, 383, 565, 155);
+		panelClient.setBounds(405, 383, 565, 155);
 		panel.add(panelClient);
 		panelClient.setLayout(null);
 		
@@ -261,21 +279,21 @@ public class Principal extends JFrame {
 				cli.setVisible(true);
 			}
 		});
-		btnNewClient.setBackground(SystemColor.scrollbar);
+		btnNewClient.setBackground(new Color(255, 255, 255));
 		Image newClient = new ImageIcon(this.getClass().getResource("/add_client.png")).getImage();
 		btnNewClient.setIcon(new ImageIcon(newClient));
 		btnNewClient.setBounds(64, 31, 78, 73);
 		panelClient.add(btnNewClient);
 		
 		btnEditClient = new JButton("");
-		btnEditClient.setBackground(SystemColor.scrollbar);
+		btnEditClient.setBackground(new Color(255, 255, 255));
 		Image editClient = new ImageIcon(this.getClass().getResource("/edit_client.png")).getImage();
 		btnEditClient.setIcon(new ImageIcon(editClient));
 		btnEditClient.setBounds(241, 31, 78, 73);
 		panelClient.add(btnEditClient);
 		
 		btnLogClient = new JButton("");
-		btnLogClient.setBackground(SystemColor.scrollbar);
+		btnLogClient.setBackground(new Color(255, 255, 255));
 		Image logClient = new ImageIcon(this.getClass().getResource("/history_client.png")).getImage();
 		btnLogClient.setIcon(new ImageIcon(logClient));
 		btnLogClient.setBounds(414, 31, 78, 73);
@@ -296,8 +314,28 @@ public class Principal extends JFrame {
 		nameLabel = new JLabel("");
 		Image nameimage = new ImageIcon(this.getClass().getResource("/nameimage.png")).getImage();
 		nameLabel.setIcon(new ImageIcon(nameimage));
-		nameLabel.setBounds(319, 23, 290, 50);
+		nameLabel.setBounds(405, 23, 290, 50);
 		panel.add(nameLabel);
+		
+		lblNewLabel = new JLabel("");
+		Image pastel = new ImageIcon(this.getClass().getResource("/pastelGraph.png")).getImage();
+		lblNewLabel.setIcon(new ImageIcon(pastel));
+		lblNewLabel.setBounds(83, 58, 209, 202);
+		panel.add(lblNewLabel);
+		
+		label = new JLabel("");
+		Image graph = new ImageIcon(this.getClass().getResource("/2dGraph.png")).getImage();
+		label.setIcon(new ImageIcon(graph));
+		label.setBounds(11, 327, 357, 202);
+		panel.add(label);
+		
+		lblGrficaPastel = new JLabel("Gr\u00E1fica Pastel");
+		lblGrficaPastel.setBounds(144, 254, 87, 16);
+		panel.add(lblGrficaPastel);
+		
+		lblGrficad = new JLabel("Gr\u00E1fica 2D");
+		lblGrficad.setBounds(128, 520, 75, 16);
+		panel.add(lblGrficad);
 		
 		
 	
