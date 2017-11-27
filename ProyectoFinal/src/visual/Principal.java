@@ -41,7 +41,7 @@ public class Principal extends JFrame {
 	private JButton btnNewContract;
 	private JButton btnModifyContract;
 	private JLabel lblNuevoTrabajador;
-	private JLabel lblNuevoContrato;
+	private JLabel lblNuevoProyecto;
 	private JLabel lblEditarContrato;
 	private JPanel panelList;
 	private JButton btnListClient;
@@ -57,6 +57,8 @@ public class Principal extends JFrame {
 	private JLabel label;
 	private JLabel lblGrficaPastel;
 	private JLabel lblGrficad;
+	private JLabel lblInformacinBsicaO;
+	private JLabel lblLaAplicacinDesarrollada;
 
 	/**
 	 * Launch the application.
@@ -238,6 +240,14 @@ public class Principal extends JFrame {
 		panelAdmin.add(btnNewWorker);
 		
 		btnNewContract = new JButton("");
+		btnNewContract.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				NewClientProject clipro = new NewClientProject();
+				clipro.setLocationRelativeTo(null);
+				clipro.setModal(true);
+				clipro.setVisible(true);
+			}
+		});
 		Image newContract = new ImageIcon(this.getClass().getResource("/add_contract.png")).getImage();
 		btnNewContract.setIcon(new ImageIcon(newContract));
 		btnNewContract.setBackground(new Color(255, 255, 255));
@@ -255,9 +265,9 @@ public class Principal extends JFrame {
 		lblNuevoTrabajador.setBounds(45, 104, 116, 16);
 		panelAdmin.add(lblNuevoTrabajador);
 		
-		lblNuevoContrato = new JLabel("Nuevo Contrato\r\n");
-		lblNuevoContrato.setBounds(231, 104, 98, 16);
-		panelAdmin.add(lblNuevoContrato);
+		lblNuevoProyecto = new JLabel("Nuevo Proyecto\r\n");
+		lblNuevoProyecto.setBounds(231, 104, 98, 16);
+		panelAdmin.add(lblNuevoProyecto);
 		
 		lblEditarContrato = new JLabel("Editar Contrato\r\n");
 		lblEditarContrato.setBounds(404, 104, 98, 16);
@@ -336,6 +346,14 @@ public class Principal extends JFrame {
 		lblGrficad = new JLabel("Gr\u00E1fica 2D");
 		lblGrficad.setBounds(128, 520, 75, 16);
 		panel.add(lblGrficad);
+		
+		lblInformacinBsicaO = new JLabel("Informaci\u00F3n b\u00E1sica o descripci\u00F3n de ");
+		lblInformacinBsicaO.setBounds(455, 109, 227, 16);
+		panel.add(lblInformacinBsicaO);
+		
+		lblLaAplicacinDesarrollada = new JLabel("la aplicaci\u00F3n desarrollada para ISC Solutions.");
+		lblLaAplicacinDesarrollada.setBounds(455, 127, 277, 16);
+		panel.add(lblLaAplicacinDesarrollada);
 		
 		
 	
