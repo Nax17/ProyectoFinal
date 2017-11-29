@@ -226,11 +226,11 @@ public class NewClientProject extends JDialog {
 				JButton btnNext = new JButton("");
 				btnNext.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						dispose();
 						NewClientContract contr = new NewClientContract();
 						contr.setLocationRelativeTo(null);
 						contr.setModal(true);
 						contr.setVisible(true);
-						dispose();
 					}
 				});
 				Image nextimage = new ImageIcon(this.getClass().getResource("/nexticon.png")).getImage();

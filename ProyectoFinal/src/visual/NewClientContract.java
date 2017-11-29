@@ -135,11 +135,11 @@ public class NewClientContract extends JDialog {
 				JButton button = new JButton("");
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						dispose();
 						NewClientProject proy = new NewClientProject();
 						proy.setLocationRelativeTo(null);
 						proy.setModal(true);
 						proy.setVisible(true);
-						dispose();
 					}
 				});
 				Image back = new ImageIcon(this.getClass().getResource("/backicon.png")).getImage();

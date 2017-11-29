@@ -126,11 +126,11 @@ public class NuevoContrato extends JDialog {
 			JButton btnBack = new JButton("");
 			btnBack.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					dispose();
 					NuevoProyecto proy = new NuevoProyecto();
 					proy.setLocationRelativeTo(null);
 					proy.setModal(true);
 					proy.setVisible(true);
-					dispose();
 				}
 			});
 			Image backImage = new ImageIcon(this.getClass().getResource("/backicon.png")).getImage();

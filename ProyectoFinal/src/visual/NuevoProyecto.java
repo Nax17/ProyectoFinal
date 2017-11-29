@@ -204,11 +204,11 @@ public class NuevoProyecto extends JDialog {
 			JButton btnNext = new JButton("");
 			btnNext.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					dispose();
 					NuevoContrato contr = new NuevoContrato();
 					contr.setLocationRelativeTo(null);
 					contr.setModal(true);
 					contr.setVisible(true);
-					dispose();
 				}
 			});
 			Image nextimage = new ImageIcon(this.getClass().getResource("/nexticon.png")).getImage();
@@ -224,11 +224,11 @@ public class NuevoProyecto extends JDialog {
 			JButton btnBack = new JButton("");
 			btnBack.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					dispose();
 					NuevoCliente cli = new NuevoCliente();
 					cli.setLocationRelativeTo(null);
 					cli.setModal(true);
 					cli.setVisible(true);
-					dispose();
 				}
 			});
 			Image backImage = new ImageIcon(this.getClass().getResource("/backicon.png")).getImage();

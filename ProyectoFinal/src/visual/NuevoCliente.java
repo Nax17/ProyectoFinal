@@ -129,11 +129,11 @@ public class NuevoCliente extends JDialog {
 			btnNext = new JButton("");
 			btnNext.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					dispose();
 					NuevoProyecto project = new NuevoProyecto();
 					project.setLocationRelativeTo(null);
 					project.setModal(true);
 					project.setVisible(true);
-					dispose();
 				}
 			});
 			Image nextimage = new ImageIcon(this.getClass().getResource("/nexticon.png")).getImage();
