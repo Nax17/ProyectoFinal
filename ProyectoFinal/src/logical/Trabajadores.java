@@ -11,8 +11,6 @@ public abstract class Trabajadores {
 		protected Proyecto proyecto;
 		protected String evaluacion;
 		
-		 
-		
 		public Trabajadores(String id, String nombre, String direccion, String sexo, int edad, long salario,
 				Proyecto proyecto, String evaluacion) {
 			super();

@@ -8,6 +8,19 @@ public class Proyecto {
 	private ArrayList<Trabajadores> misTrabajadores;
 	private String lenguaje;
 	
+	public void addTrabajador(Trabajadores t){
+		misTrabajadores.add(t);
+	}
+	
+	
+	public Proyecto(String nombre, String descripcion, String lenguaje) {
+		super();
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.lenguaje = lenguaje;
+	}
+
+
 	public String getNombre() {
 		return nombre;
 	}

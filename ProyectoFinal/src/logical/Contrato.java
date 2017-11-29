@@ -19,6 +19,7 @@ public class Contrato {
 		this.proyecto = proyecto;
 		this.monto = monto;
 	}
+	
 	public Date getFechaInicio() {
 		return fechaInicio;
 	}
