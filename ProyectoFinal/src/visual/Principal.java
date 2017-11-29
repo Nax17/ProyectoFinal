@@ -226,7 +226,7 @@ public class Principal extends JFrame {
 		btnNewWorker = new JButton("");
 		btnNewWorker.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NuevoTrabajador worker = new NuevoTrabajador();
+				NuevoProyectoAdmin worker = new NuevoProyectoAdmin();
 				worker.setLocationRelativeTo(null);
 				worker.setModal(true);
 				worker.setVisible(true);
@@ -282,7 +282,7 @@ public class Principal extends JFrame {
 		btnNewClient = new JButton("");
 		btnNewClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				NuevoCliente cli = new NuevoCliente();
+				NuevosDatos cli = new NuevosDatos();
 				cli.setLocationRelativeTo(null);
 				cli.setModal(true);
 				cli.setVisible(true);

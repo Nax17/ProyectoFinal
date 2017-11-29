@@ -61,6 +61,7 @@ public class NuevoContrato extends JDialog {
 			panel.setBackground(SystemColor.textHighlightText);
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
+			panel.setBounds(0, 0, 511, 425);
 			
 			JLabel lblId = new JLabel("ID Contrato:");
 			lblId.setBounds(12, 30, 76, 16);
