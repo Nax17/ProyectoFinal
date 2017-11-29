@@ -21,6 +21,10 @@ public class Lists extends JDialog {
 	private JTable table_1;
 	private JTable table_2;
 	private JTable table_3;
+	private DefaultTableModel cli;
+	private DefaultTableModel pro;
+	private DefaultTableModel contr;
+	private DefaultTableModel worker;
 
 	/**
 	 * Launch the application.
@@ -78,7 +82,7 @@ public class Lists extends JDialog {
 				{
 					JButton btnTrabajadores = new JButton("Trabajadores");
 					btnTrabajadores.setBackground(SystemColor.inactiveCaptionBorder);
-					btnTrabajadores.setBounds(14, 48, 109, 21);
+					btnTrabajadores.setBounds(14, 48, 115, 21);
 					panel_1.add(btnTrabajadores);
 				}
 			}
@@ -88,6 +92,10 @@ public class Lists extends JDialog {
 				panel.add(scrPaneWorker);
 				{
 					table_3 = new JTable();
+					String[] columnNames = {"ID","Cédula","Nombre","Dirección","Sexo","Edad","Salario","Cantidad de proyectos","Evaluación"};
+					worker = new DefaultTableModel();
+					worker.setColumnIdentifiers(columnNames);
+					table_3.setModel(worker);
 					scrPaneWorker.setViewportView(table_3);
 				}
 			}
