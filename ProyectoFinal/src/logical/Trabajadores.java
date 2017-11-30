@@ -8,11 +8,9 @@ public abstract class Trabajadores {
 		protected String sexo;
 		protected int edad;
 		protected long  salario;
-		protected Proyecto proyecto;
 		protected String evaluacion;
 		
-		public Trabajadores(String id, String nombre, String direccion, String sexo, int edad, long salario,
-				Proyecto proyecto, String evaluacion) {
+		public Trabajadores(String id, String nombre, String direccion, String sexo, int edad, long salario, String evaluacion) {
 			super();
 			this.cedula = id;
 			this.nombre = nombre;
@@ -20,7 +18,6 @@ public abstract class Trabajadores {
 			this.sexo = sexo;
 			this.edad = edad;
 			this.salario = salario;
-			this.proyecto = proyecto;
 			this.evaluacion = evaluacion;
 		}
 		
@@ -59,12 +56,6 @@ public abstract class Trabajadores {
 		}
 		public void setSalario(long salario) {
 			this.salario = salario;
-		}
-		public Proyecto getProyecto() {
-			return proyecto;
-		}
-		public void setProyecto(Proyecto proyecto) {
-			this.proyecto = proyecto;
 		}
 		public String getEvaluacion() {
 			return evaluacion;

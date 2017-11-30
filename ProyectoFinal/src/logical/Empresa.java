@@ -18,19 +18,19 @@ public class Empresa {
 	public ArrayList<Trabajadores> getMisTrabajadores() {
 		return misTrabajadores;
 	}
-	public void setMisTrabajadores(ArrayList<Trabajadores> misTrabajadores) {
-		this.misTrabajadores = misTrabajadores;
-	}
 	public ArrayList<Cliente> getMisClientes() {
 		return misClientes;
-	}
-	public void setMisClientes(ArrayList<Cliente> misClientes) {
-		this.misClientes = misClientes;
 	}
 	public ArrayList<Contrato> getMisContratos() {
 		return misContratos;
 	}
-	public void setMisContratos(ArrayList<Contrato> misContratos) {
-		this.misContratos = misContratos;
+	
+	public Trabajadores findTrabajadorByNombre(String nombre){
+		Trabajadores t = null;
+		for (Trabajadores tr : misTrabajadores) {
+			if(tr.getNombre().equalsIgnoreCase(nombre))
+				t = tr;
+		}
+		return t;
 	}
 }

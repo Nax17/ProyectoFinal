@@ -13,15 +13,26 @@ import java.awt.Toolkit;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import logical.Designer;
+import logical.Empresa;
+import logical.JefeProyecto;
+import logical.Planificador;
+import logical.Programador;
+import logical.Trabajadores;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.SystemColor;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.JTextPane;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ListSelectionModel;
 
 public class NuevosDatos extends JDialog {
 
@@ -42,6 +53,14 @@ public class NuevosDatos extends JDialog {
 	private JTextField textField_10;
 	private JTextField textField_11;
 	private JPanel panelContrato;
+	private JTable tableDisp;
+	private JTable tableSelected;
+	private JComboBox comboBox_2;
+	private static DefaultTableModel model;
+	private static DefaultTableModel model2;
+	private static Object[] fila;
+	private static Object[] fila2;
+	private static ArrayList<Trabajadores> tSelected = new ArrayList<>();
 
 	/**
 	 * Launch the application.
@@ -81,10 +100,20 @@ public class NuevosDatos extends JDialog {
 		panelContrato = new JPanel();
 		panelContrato.setLayout(null);
 		panelContrato.setVisible(false);
-		
-		panelProyecto = new JPanel();
-		panelProyecto.setEnabled(false);
-		panelProyecto.setVisible(false);
+		String[] columnNamesdisp = {"Nombre", "Evaluación"};
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(columnNamesdisp);
+		if(comboBox_2.getSelectedIndex()==1)
+			loadTableJefesDisp();
+		if(comboBox_2.getSelectedIndex()==2)
+			loadTableDiseDisp();
+		if(comboBox_2.getSelectedIndex()==3)
+			loadTablePlanDisp();
+		if(comboBox_2.getSelectedIndex()==4)
+			loadTablePrograDisp();
+		String[] columnNamesSelected = {"Nombre", "Evaluación"};
+		model2 = new DefaultTableModel();
+		model2.setColumnIdentifiers(columnNamesSelected);
 		
 		panelCliente = new JPanel();
 		panelCliente.setBackground(SystemColor.textHighlightText);
@@ -168,6 +197,16 @@ public class NuevosDatos extends JDialog {
 		JLabel label_5 = new JLabel("Continuar");
 		label_5.setBounds(424, 272, 56, 16);
 		panelCliente.add(label_5);
+		
+		Image der = new ImageIcon(this.getClass().getResource("/derTable.png")).getImage();
+		Image izq = new ImageIcon(this.getClass().getResource("/izqTable.png")).getImage();
+		Image nextP = new ImageIcon(this.getClass().getResource("/nexticon.png")).getImage();
+		Image back1 = new ImageIcon(this.getClass().getResource("/backicon.png")).getImage();
+		Image footimage2 = new ImageIcon(this.getClass().getResource("/footimage.png")).getImage();
+		
+		panelProyecto = new JPanel();
+		panelProyecto.setEnabled(false);
+		panelProyecto.setVisible(false);
 		panelProyecto.setBounds(0, 0, 739, 571);
 		contentPanel.add(panelProyecto);
 		panelProyecto.setLayout(null);
@@ -256,7 +295,8 @@ public class NuevosDatos extends JDialog {
 		label_12.setBounds(12, 23, 38, 16);
 		panel_3.add(label_12);
 		
-		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2 = new JComboBox();
+		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Jefes de Proyecto", "Dise\u00F1adores", "Planificadores", "Programadores"}));
 		comboBox_2.setBackground(SystemColor.inactiveCaptionBorder);
 		comboBox_2.setBounds(62, 21, 159, 21);
 		panel_3.add(comboBox_2);
@@ -265,23 +305,45 @@ public class NuevosDatos extends JDialog {
 		scrollPane.setBounds(12, 52, 307, 99);
 		panel_3.add(scrollPane);
 		
+		tableDisp = new JTable();
+		tableDisp.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableDisp.setModel(model);
+		scrollPane.setViewportView(tableDisp);
+		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(386, 52, 307, 99);
 		panel_3.add(scrollPane_1);
 		
-		Image der = new ImageIcon(this.getClass().getResource("/derTable.png")).getImage();
-		Image izq = new ImageIcon(this.getClass().getResource("/izqTable.png")).getImage();
-		Image nextP = new ImageIcon(this.getClass().getResource("/nexticon.png")).getImage();
-		Image back1 = new ImageIcon(this.getClass().getResource("/backicon.png")).getImage();
-		Image footimage2 = new ImageIcon(this.getClass().getResource("/footimage.png")).getImage();
+		tableSelected = new JTable();
+		tableSelected.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableSelected.setModel(model2);
+		scrollPane_1.setViewportView(tableSelected);
 		
 		JButton btnDer = new JButton("");
+		btnDer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int index = tableDisp.getSelectedRow();
+				String nombre = (String) tableDisp.getModel().getValueAt(index, 0);
+				Trabajadores t = Empresa.getInstance().findTrabajadorByNombre(nombre);
+				tSelected.add(t);
+				loadTableSelected();
+			}
+		});
 		btnDer.setIcon(new ImageIcon(der));
 		btnDer.setBackground(SystemColor.inactiveCaptionBorder);
 		btnDer.setBounds(336, 69, 38, 25);
 		panel_3.add(btnDer);
 		
 		JButton btnIzq = new JButton("");
+		btnIzq.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int index = tableSelected.getSelectedRow();
+				String nombre = (String) tableSelected.getModel().getValueAt(index, 0);
+				Trabajadores t = Empresa.getInstance().findTrabajadorByNombre(nombre);
+				tSelected.remove(t);
+				loadTableSelected();
+			}
+		});
 		btnIzq.setIcon(new ImageIcon(izq));
 		btnIzq.setBackground(SystemColor.inactiveCaptionBorder);
 		btnIzq.setBounds(336, 107, 38, 25);
@@ -440,5 +502,74 @@ public class NuevosDatos extends JDialog {
 		label_24.setIcon(new ImageIcon(logo2));
 		label_24.setBounds(12, 217, 260, 50);
 		panelContrato.add(label_24);
+	}
+	public static void loadTableJefesDisp() {
+		model.setRowCount(0);
+		fila = new Object[model.getColumnCount()];
+		for (int i = 0; i < Empresa.getInstance().getMisTrabajadores().size(); i++) {
+			if(Empresa.getInstance().getMisTrabajadores().get(i) instanceof JefeProyecto){
+				JefeProyecto jefe = (JefeProyecto) Empresa.getInstance().getMisTrabajadores().get(i);
+				if(jefe.getMisProyectos().size() < 2){
+					fila[0] = jefe.getNombre();
+					fila[1] = jefe.getEvaluacion();
+				}
+			}
+			model.addRow(fila);
+		}
+		
+	}
+	public static void loadTableDiseDisp() {
+		model.setRowCount(0);
+		fila = new Object[model.getColumnCount()];
+		for (int i = 0; i < Empresa.getInstance().getMisTrabajadores().size(); i++) {
+			if(Empresa.getInstance().getMisTrabajadores().get(i) instanceof Designer){
+				Designer jefe = (Designer) Empresa.getInstance().getMisTrabajadores().get(i);
+				if(jefe.getMisProyectos().size() < 2){
+					fila[0] = jefe.getNombre();
+					fila[1] = jefe.getEvaluacion();
+				}
+			}
+			model.addRow(fila);
+		}
+		
+	}
+	public static void loadTablePlanDisp() {
+		model.setRowCount(0);
+		fila = new Object[model.getColumnCount()];
+		for (int i = 0; i < Empresa.getInstance().getMisTrabajadores().size(); i++) {
+			if(Empresa.getInstance().getMisTrabajadores().get(i) instanceof Planificador){
+				Planificador jefe = (Planificador) Empresa.getInstance().getMisTrabajadores().get(i);
+				if(jefe.getMisProyectos().size() < 2){
+					fila[0] = jefe.getNombre();
+					fila[1] = jefe.getEvaluacion();
+				}
+			}
+			model.addRow(fila);
+		}
+		
+	}
+	public static void loadTablePrograDisp() {
+		model.setRowCount(0);
+		fila = new Object[model.getColumnCount()];
+		for (int i = 0; i < Empresa.getInstance().getMisTrabajadores().size(); i++) {
+			if(Empresa.getInstance().getMisTrabajadores().get(i) instanceof Programador){
+				Programador jefe = (Programador) Empresa.getInstance().getMisTrabajadores().get(i);
+				if(jefe.getProyecto() != null){
+					fila[0] = jefe.getNombre();
+					fila[1] = jefe.getEvaluacion();
+				}
+			}
+			model.addRow(fila);
+		}
+		
+	}
+	public static void loadTableSelected(){
+		model2.setRowCount(0);
+		fila2 = new Object[model2.getColumnCount()];
+		for (Trabajadores t : tSelected){
+			fila2[0] = t.getNombre();
+			fila2[1] = t.getEvaluacion();
+			model2.addRow(fila2);
+		}
 	}
 }
