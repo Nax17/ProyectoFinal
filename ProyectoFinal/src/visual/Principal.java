@@ -241,10 +241,7 @@ public class Principal extends JFrame {
 		btnNewContract = new JButton("");
 		btnNewContract.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NewClientProject clipro = new NewClientProject();
-				clipro.setLocationRelativeTo(null);
-				clipro.setModal(true);
-				clipro.setVisible(true);
+				
 			}
 		});
 		Image newContract = new ImageIcon(this.getClass().getResource("/add_contract.png")).getImage();
