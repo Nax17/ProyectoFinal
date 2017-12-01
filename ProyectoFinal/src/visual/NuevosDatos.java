@@ -103,14 +103,6 @@ public class NuevosDatos extends JDialog {
 		String[] columnNamesdisp = {"Nombre", "Evaluación"};
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(columnNamesdisp);
-		if(comboBox_2.getSelectedIndex()==1)
-			loadTableJefesDisp();
-		if(comboBox_2.getSelectedIndex()==2)
-			loadTableDiseDisp();
-		if(comboBox_2.getSelectedIndex()==3)
-			loadTablePlanDisp();
-		if(comboBox_2.getSelectedIndex()==4)
-			loadTablePrograDisp();
 		String[] columnNamesSelected = {"Nombre", "Evaluación"};
 		model2 = new DefaultTableModel();
 		model2.setColumnIdentifiers(columnNamesSelected);
@@ -300,6 +292,14 @@ public class NuevosDatos extends JDialog {
 		comboBox_2.setBackground(SystemColor.inactiveCaptionBorder);
 		comboBox_2.setBounds(62, 21, 159, 21);
 		panel_3.add(comboBox_2);
+		if(comboBox_2.getSelectedIndex()==1)
+			loadTableJefesDisp();
+		if(comboBox_2.getSelectedIndex()==2)
+			loadTableDiseDisp();
+		if(comboBox_2.getSelectedIndex()==3)
+			loadTablePlanDisp();
+		if(comboBox_2.getSelectedIndex()==4)
+			loadTablePrograDisp();
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(12, 52, 307, 99);
