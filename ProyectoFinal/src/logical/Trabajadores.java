@@ -11,9 +11,9 @@ public abstract class Trabajadores {
 		protected String evaluacion;
 		protected int cantProyectosIncumplidos = 0;
 		
-		public Trabajadores(String id, String nombre, String direccion, String sexo, int edad, long salario, String evaluacion) {
+		public Trabajadores(String cedula, String nombre, String direccion, String sexo, int edad, long salario, String evaluacion) {
 			super();
-			this.cedula = id;
+			this.cedula = cedula;
 			this.nombre = nombre;
 			this.direccion = direccion;
 			this.sexo = sexo;
@@ -22,11 +22,11 @@ public abstract class Trabajadores {
 			this.evaluacion = evaluacion;
 		}
 		
-		public String getId() {
+		public String getCedula() {
 			return cedula;
 		}
-		public void setId(String id) {
-			this.cedula = id;
+		public void setCedula(String cedula) {
+			this.cedula = cedula;
 		}
 		public String getNombre() {
 			return nombre;
