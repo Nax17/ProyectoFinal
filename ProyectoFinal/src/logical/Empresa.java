@@ -26,11 +26,17 @@ public class Empresa {
 	}
 	
 	public Trabajadores findTrabajadorByNombre(String nombre){
-		Trabajadores t = null;
 		for (Trabajadores tr : misTrabajadores) {
 			if(tr.getNombre().equalsIgnoreCase(nombre))
-				t = tr;
+				return tr;
 		}
-		return t;
+		return null;
+	}
+	public Cliente findClienteByCed(String ced){
+		for(Cliente cli : misClientes){
+			if(cli.getCedula().equalsIgnoreCase(ced))
+				return cli;
+		}
+		return null;
 	}
 }

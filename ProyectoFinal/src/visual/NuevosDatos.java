@@ -14,11 +14,16 @@ import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.sun.security.ntlm.Client;
+
+import logical.Cliente;
+import logical.Contrato;
 import logical.Designer;
 import logical.Empresa;
 import logical.JefeProyecto;
 import logical.Planificador;
 import logical.Programador;
+import logical.Proyecto;
 import logical.Trabajadores;
 
 import javax.swing.JLabel;
@@ -26,7 +31,10 @@ import javax.swing.JTextField;
 import java.awt.SystemColor;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
@@ -56,6 +64,8 @@ public class NuevosDatos extends JDialog {
 	private JTable tableDisp;
 	private JTable tableSelected;
 	private JComboBox comboBox_2;
+	private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	private Date fechaActual = new Date();
 	private static DefaultTableModel model;
 	private static DefaultTableModel model2;
 	private static Object[] fila;
@@ -159,6 +169,7 @@ public class NuevosDatos extends JDialog {
 		textField_3.setColumns(10);
 		textField_3.setBackground(SystemColor.inactiveCaptionBorder);
 		textField_3.setBounds(96, 33, 99, 21);
+		textField_3.setText("CL-" + Empresa.getInstance().getMisClientes().size() + 1);
 		panel.add(textField_3);
 		
 		JLabel label_4 = new JLabel("");
@@ -431,9 +442,12 @@ public class NuevosDatos extends JDialog {
 		panelContrato.add(label_18);
 		
 		textField_9 = new JTextField();
+		textField_9.setEnabled(false);
+		textField_9.setEditable(false);
 		textField_9.setColumns(10);
 		textField_9.setBackground(SystemColor.inactiveCaptionBorder);
 		textField_9.setBounds(94, 60, 131, 21);
+		textField_9.setText(dateFormat.format(fechaActual));
 		panelContrato.add(textField_9);
 		
 		JLabel label_19 = new JLabel("Fecha Final: ");
@@ -489,6 +503,21 @@ public class NuevosDatos extends JDialog {
 		panelContrato.add(label_22);
 		
 		JButton btnSave = new JButton("");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String cedula = textField.getText();
+				String nombreCliente = textField_1.getText();
+				String direccion = textField_2.getText();
+				Cliente cliente = new Cliente(cedula, nombreCliente, direccion);
+				String nombreProyecto = textField_5.getText();
+				String descripcion = textPane.getText();
+				String lenguaje = (String)comboBox.getSelectedItem();
+				Proyecto proyecto = new Proyecto(nombreProyecto, descripcion, lenguaje);
+				Date fechaFinal = new Date();
+				/*long monto = ;
+				Contrato contrato = new Contrato(fechaActual, fechaFinal, id, cliente, proyecto, monto);*/
+			}
+		});
 		btnSave.setIcon(new ImageIcon(save));
 		btnSave.setBackground(SystemColor.inactiveCaptionBorder);
 		btnSave.setBounds(406, 126, 64, 67);
