@@ -64,8 +64,6 @@ public class NuevosDatos extends JDialog {
 	private JTable tableDisp;
 	private JTable tableSelected;
 	private JComboBox comboBox_2;
-	private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-	private Date fechaActual = new Date();
 	private static DefaultTableModel model;
 	private static DefaultTableModel model2;
 	private static Object[] fila;
@@ -447,7 +445,6 @@ public class NuevosDatos extends JDialog {
 		textField_9.setColumns(10);
 		textField_9.setBackground(SystemColor.inactiveCaptionBorder);
 		textField_9.setBounds(94, 60, 131, 21);
-		textField_9.setText(dateFormat.format(fechaActual));
 		panelContrato.add(textField_9);
 		
 		JLabel label_19 = new JLabel("Fecha Final: ");
@@ -513,9 +510,16 @@ public class NuevosDatos extends JDialog {
 				String descripcion = textPane.getText();
 				String lenguaje = (String)comboBox.getSelectedItem();
 				Proyecto proyecto = new Proyecto(nombreProyecto, descripcion, lenguaje);
+				Date fechaInicial = new Date();
 				Date fechaFinal = new Date();
-				/*long monto = ;
-				Contrato contrato = new Contrato(fechaActual, fechaFinal, id, cliente, proyecto, monto);*/
+				long moto = 0;
+				for (Trabajadores t : tSelected) {
+					moto += t.getSalario();
+				}
+				int tiempo = (int) ((fechaFinal.getTime() - fechaInicial.getTime()) / (1000*60*60*24));
+				long monto = (long) ((tiempo*model2.getRowCount()*8*moto)*1.15);
+				String id = textField_7.getText();
+				Contrato contrato = new Contrato(fechaInicial, fechaFinal, id, cliente, proyecto, monto);
 			}
 		});
 		btnSave.setIcon(new ImageIcon(save));

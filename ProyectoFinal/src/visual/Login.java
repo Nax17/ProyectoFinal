@@ -9,14 +9,21 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
+
+import logical.LoginAdmin;
+
 import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Login extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 	private JPasswordField passwordField;
+	private boolean entrada = false;
 
 	/**
 	 * Launch the application.
@@ -67,15 +74,36 @@ public class Login extends JDialog {
 			getContentPane().add(buttonPane);
 			{
 				JButton okButton = new JButton("Ingresar");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(!(textField.getText().equalsIgnoreCase(LoginAdmin.getNombre()))){
+							JOptionPane.showMessageDialog(null, "Nombre de usuario Incorrecto.", "ERROR", JOptionPane.ERROR_MESSAGE);
+						}else if(!(passwordField.getText().equalsIgnoreCase(LoginAdmin.getContra()))){
+							JOptionPane.showMessageDialog(null, "Contraseña Incorrecta.", "ERROR", JOptionPane.ERROR_MESSAGE);
+						}else{
+							entrada = true;
+							dispose();
+						}
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Salir");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+
+	public boolean isEntrada() {
+		return entrada;
 	}
 }

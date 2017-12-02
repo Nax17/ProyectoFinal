@@ -91,6 +91,11 @@ public class Principal extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
+		Login login = new Login();
+		login.setLocationRelativeTo(null);
+		login.setModal(true);
+		login.setVisible(true);
+		
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.textHighlightText);
 		contentPane.add(panel, BorderLayout.CENTER);
