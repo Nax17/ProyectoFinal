@@ -7,8 +7,9 @@ public abstract class Trabajadores {
 		protected String direccion;
 		protected String sexo;
 		protected int edad;
-		protected long  salario;
+		protected long salario;
 		protected String evaluacion;
+		protected int cantProyectosIncumplidos = 0;
 		
 		public Trabajadores(String id, String nombre, String direccion, String sexo, int edad, long salario, String evaluacion) {
 			super();
