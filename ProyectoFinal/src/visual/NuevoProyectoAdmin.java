@@ -12,6 +12,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
+
+import logical.Empresa;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.SystemColor;
@@ -24,15 +27,14 @@ import java.awt.event.ActionEvent;
 public class NuevoProyectoAdmin extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
+	private JTextField txtID;
+	private JTextField txtNombre;
+	private JTextField txtCliente;
+	private JTextField txtFind;
+	private JTextField txtIDCont;
+	private JTextField txtClienteCont;
+	private JTextField txtFechaIni;
+	private JTextField txtFechaFinal;
 	private JPanel panelContrato;
 	private JPanel panelProyecto;
 	/**
@@ -78,12 +80,13 @@ public class NuevoProyectoAdmin extends JDialog {
 					panel_1.add(label);
 				}
 				{
-					textField = new JTextField();
-					textField.setEditable(false);
-					textField.setColumns(10);
-					textField.setBackground(SystemColor.inactiveCaptionBorder);
-					textField.setBounds(90, 34, 116, 21);
-					panel_1.add(textField);
+					txtID = new JTextField();
+					txtID.setEditable(false);
+					txtID.setColumns(10);
+					txtID.setBackground(SystemColor.inactiveCaptionBorder);
+					txtID.setBounds(90, 34, 116, 21);
+					txtID.setText("P-" + Empresa.getInstance().getMisClientes().size() + 1);
+					panel_1.add(txtID);
 				}
 				{
 					JLabel label = new JLabel("Nombre:");
@@ -91,12 +94,12 @@ public class NuevoProyectoAdmin extends JDialog {
 					panel_1.add(label);
 				}
 				{
-					textField_1 = new JTextField();
-					textField_1.setEnabled(false);
-					textField_1.setColumns(10);
-					textField_1.setBackground(SystemColor.inactiveCaptionBorder);
-					textField_1.setBounds(90, 63, 225, 21);
-					panel_1.add(textField_1);
+					txtNombre = new JTextField();
+					txtNombre.setEnabled(false);
+					txtNombre.setColumns(10);
+					txtNombre.setBackground(SystemColor.inactiveCaptionBorder);
+					txtNombre.setBounds(90, 63, 225, 21);
+					panel_1.add(txtNombre);
 				}
 				{
 					JLabel label = new JLabel("Lenguaje:");
@@ -104,11 +107,11 @@ public class NuevoProyectoAdmin extends JDialog {
 					panel_1.add(label);
 				}
 				{
-					JComboBox comboBox = new JComboBox();
-					comboBox.setEnabled(false);
-					comboBox.setBackground(SystemColor.inactiveCaptionBorder);
-					comboBox.setBounds(426, 63, 194, 21);
-					panel_1.add(comboBox);
+					JComboBox cmbxLenguaje = new JComboBox();
+					cmbxLenguaje.setEnabled(false);
+					cmbxLenguaje.setBackground(SystemColor.inactiveCaptionBorder);
+					cmbxLenguaje.setBounds(426, 63, 194, 21);
+					panel_1.add(cmbxLenguaje);
 				}
 				{
 					JLabel label = new JLabel("Descripci\u00F3n:");
@@ -121,18 +124,18 @@ public class NuevoProyectoAdmin extends JDialog {
 					panel_1.add(label);
 				}
 				{
-					JComboBox comboBox = new JComboBox();
-					comboBox.setEnabled(false);
-					comboBox.setBackground(SystemColor.inactiveCaptionBorder);
-					comboBox.setBounds(426, 97, 135, 21);
-					panel_1.add(comboBox);
+					JComboBox cmbxEstado = new JComboBox();
+					cmbxEstado.setEnabled(false);
+					cmbxEstado.setBackground(SystemColor.inactiveCaptionBorder);
+					cmbxEstado.setBounds(426, 97, 135, 21);
+					panel_1.add(cmbxEstado);
 				}
 				{
-					JTextPane textPane = new JTextPane();
-					textPane.setEnabled(false);
-					textPane.setBackground(SystemColor.inactiveCaptionBorder);
-					textPane.setBounds(90, 97, 225, 60);
-					panel_1.add(textPane);
+					JTextPane txtPaneDesc = new JTextPane();
+					txtPaneDesc.setEnabled(false);
+					txtPaneDesc.setBackground(SystemColor.inactiveCaptionBorder);
+					txtPaneDesc.setBounds(90, 97, 225, 60);
+					panel_1.add(txtPaneDesc);
 				}
 				{
 					JLabel label = new JLabel("Cliente:");
@@ -140,12 +143,12 @@ public class NuevoProyectoAdmin extends JDialog {
 					panel_1.add(label);
 				}
 				{
-					textField_2 = new JTextField();
-					textField_2.setEditable(false);
-					textField_2.setColumns(10);
-					textField_2.setBackground(SystemColor.inactiveCaptionBorder);
-					textField_2.setBounds(426, 33, 267, 21);
-					panel_1.add(textField_2);
+					txtCliente = new JTextField();
+					txtCliente.setEditable(false);
+					txtCliente.setColumns(10);
+					txtCliente.setBackground(SystemColor.inactiveCaptionBorder);
+					txtCliente.setBounds(426, 33, 267, 21);
+					panel_1.add(txtCliente);
 				}
 			}
 			{
@@ -154,10 +157,10 @@ public class NuevoProyectoAdmin extends JDialog {
 				panelProyecto.add(label);
 			}
 			{
-				textField_3 = new JTextField();
-				textField_3.setColumns(10);
-				textField_3.setBounds(106, 20, 157, 21);
-				panelProyecto.add(textField_3);
+				txtFind = new JTextField();
+				txtFind.setColumns(10);
+				txtFind.setBounds(106, 20, 157, 21);
+				panelProyecto.add(txtFind);
 			}
 			{
 				JButton btnFind = new JButton("");
@@ -179,11 +182,11 @@ public class NuevoProyectoAdmin extends JDialog {
 					panel_1.add(label);
 				}
 				{
-					JComboBox comboBox = new JComboBox();
-					comboBox.setEnabled(false);
-					comboBox.setBackground(SystemColor.inactiveCaptionBorder);
-					comboBox.setBounds(62, 21, 159, 21);
-					panel_1.add(comboBox);
+					JComboBox cmbxTipo = new JComboBox();
+					cmbxTipo.setEnabled(false);
+					cmbxTipo.setBackground(SystemColor.inactiveCaptionBorder);
+					cmbxTipo.setBounds(62, 21, 159, 21);
+					panel_1.add(cmbxTipo);
 				}
 				{
 					JScrollPane scrollPane = new JScrollPane();
@@ -283,12 +286,13 @@ public class NuevoProyectoAdmin extends JDialog {
 			panelContrato.add(label);
 		}
 		{
-			textField_4 = new JTextField();
-			textField_4.setEditable(false);
-			textField_4.setColumns(10);
-			textField_4.setBackground(SystemColor.inactiveCaptionBorder);
-			textField_4.setBounds(94, 27, 131, 21);
-			panelContrato.add(textField_4);
+			txtIDCont = new JTextField();
+			txtIDCont.setEditable(false);
+			txtIDCont.setColumns(10);
+			txtIDCont.setBackground(SystemColor.inactiveCaptionBorder);
+			txtIDCont.setBounds(94, 27, 131, 21);
+			txtIDCont.setText("C-" + Empresa.getInstance().getMisClientes().size() + 1);
+			panelContrato.add(txtIDCont);
 		}
 		{
 			JLabel label = new JLabel("Cliente: ");
@@ -296,12 +300,12 @@ public class NuevoProyectoAdmin extends JDialog {
 			panelContrato.add(label);
 		}
 		{
-			textField_5 = new JTextField();
-			textField_5.setEditable(false);
-			textField_5.setColumns(10);
-			textField_5.setBackground(SystemColor.inactiveCaptionBorder);
-			textField_5.setBounds(325, 27, 148, 21);
-			panelContrato.add(textField_5);
+			txtClienteCont = new JTextField();
+			txtClienteCont.setEditable(false);
+			txtClienteCont.setColumns(10);
+			txtClienteCont.setBackground(SystemColor.inactiveCaptionBorder);
+			txtClienteCont.setBounds(325, 27, 148, 21);
+			panelContrato.add(txtClienteCont);
 		}
 		{
 			JLabel label = new JLabel("Fecha Inicial:");
@@ -309,11 +313,11 @@ public class NuevoProyectoAdmin extends JDialog {
 			panelContrato.add(label);
 		}
 		{
-			textField_6 = new JTextField();
-			textField_6.setColumns(10);
-			textField_6.setBackground(SystemColor.inactiveCaptionBorder);
-			textField_6.setBounds(94, 60, 131, 21);
-			panelContrato.add(textField_6);
+			txtFechaIni = new JTextField();
+			txtFechaIni.setColumns(10);
+			txtFechaIni.setBackground(SystemColor.inactiveCaptionBorder);
+			txtFechaIni.setBounds(94, 60, 131, 21);
+			panelContrato.add(txtFechaIni);
 		}
 		{
 			JLabel label = new JLabel("Fecha Final: ");
@@ -321,77 +325,63 @@ public class NuevoProyectoAdmin extends JDialog {
 			panelContrato.add(label);
 		}
 		{
-			textField_7 = new JTextField();
-			textField_7.setColumns(10);
-			textField_7.setBackground(SystemColor.inactiveCaptionBorder);
-			textField_7.setBounds(325, 59, 148, 21);
-			panelContrato.add(textField_7);
-		}
-		{
-			JLabel label = new JLabel("Entrega: ");
-			label.setBounds(12, 97, 56, 16);
-			panelContrato.add(label);
-		}
-		{
-			textField_8 = new JTextField();
-			textField_8.setColumns(10);
-			textField_8.setBackground(SystemColor.inactiveCaptionBorder);
-			textField_8.setBounds(94, 94, 116, 22);
-			panelContrato.add(textField_8);
+			txtFechaFinal = new JTextField();
+			txtFechaFinal.setColumns(10);
+			txtFechaFinal.setBackground(SystemColor.inactiveCaptionBorder);
+			txtFechaFinal.setBounds(325, 59, 148, 21);
+			panelContrato.add(txtFechaFinal);
 		}
 		{
 			JLabel label = new JLabel("Proyecto: ");
-			label.setBounds(251, 97, 64, 16);
+			label.setBounds(12, 95, 64, 16);
 			panelContrato.add(label);
 		}
 		{
 			JComboBox comboBox = new JComboBox();
 			comboBox.setBackground(SystemColor.inactiveCaptionBorder);
-			comboBox.setBounds(325, 94, 146, 21);
+			comboBox.setBounds(86, 92, 146, 21);
 			panelContrato.add(comboBox);
 		}
-		{
-			JButton btnBack = new JButton("");
-			btnBack.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					setBounds(100, 100, 764, 559);
-					setLocationRelativeTo(null);
-					setTitle("Nuevo Proyecto");
-					panelProyecto.setEnabled(true);
-					panelProyecto.setVisible(true);
-					panelContrato.setEnabled(false);
-					panelContrato.setVisible(false);
-				}
-			});
-			Image back = new ImageIcon(this.getClass().getResource("/backicon.png")).getImage();
-			btnBack.setIcon(new ImageIcon(back));
-			btnBack.setBackground(SystemColor.inactiveCaptionBorder);
-			btnBack.setBounds(15, 138, 50, 55);
-			panelContrato.add(btnBack);
-		}
+		JButton btnBack = new JButton("");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setBounds(100, 100, 764, 559);
+				setLocationRelativeTo(null);
+				setTitle("Nuevo Proyecto");
+				panelProyecto.setEnabled(true);
+				panelProyecto.setVisible(true);
+				panelContrato.setEnabled(false);
+				panelContrato.setVisible(false);
+			}
+		});
+		Image back = new ImageIcon(this.getClass().getResource("/backicon.png")).getImage();
+		btnBack.setIcon(new ImageIcon(back));
+		btnBack.setBackground(SystemColor.inactiveCaptionBorder);
+		btnBack.setBounds(15, 138, 50, 55);
+		panelContrato.add(btnBack);
 		{
 			JLabel label = new JLabel("Anterior");
 			label.setBounds(12, 196, 56, 16);
 			panelContrato.add(label);
+			
 		}
-		{
-			JButton btnSave = new JButton("");
-			Image save = new ImageIcon(this.getClass().getResource("/save_button.png")).getImage();
-			btnSave.setIcon(new ImageIcon(save));
-			btnSave.setBackground(SystemColor.inactiveCaptionBorder);
-			btnSave.setBounds(406, 126, 64, 67);
-			panelContrato.add(btnSave);
-		}
+		JButton btnSave = new JButton("");
+		Image save = new ImageIcon(this.getClass().getResource("/save_button.png")).getImage();
+		btnSave.setIcon(new ImageIcon(save));
+		btnSave.setBackground(SystemColor.inactiveCaptionBorder);
+		btnSave.setBounds(406, 126, 64, 67);
+		panelContrato.add(btnSave);
 		{
 			JLabel label = new JLabel("Guardar");
 			label.setBounds(417, 196, 56, 16);
 			panelContrato.add(label);
+			
 		}
 		JLabel label_1 = new JLabel("");
 		Image foot = new ImageIcon(this.getClass().getResource("/footimage.png")).getImage();
 		label_1.setIcon(new ImageIcon(foot));
 		label_1.setBounds(12, 217, 260, 50);
 		panelContrato.add(label_1);
+		
 	}
-
 }

@@ -45,30 +45,35 @@ import javax.swing.ListSelectionModel;
 public class NuevosDatos extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private DefaultTableModel cliente;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField txtCedula;
+	private JTextField txtNombre;
+	private JTextField txtDireccion;
+	private JTextField txtIDCli;
+	private DefaultTableModel cli;
+	private JTextField txtIDProy;
+	private JTextField txtNombrePro;
+	private JTextField txtCliente;
 	private JPanel panelProyecto;
 	private JPanel panelCliente;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField textField_10;
-	private JTextField textField_11;
+	private JTextField txtIDCont;
+	private JTextField txtClienteCont;
+	private JTextField txtFechaIni;
+	private JTextField txtFechaFin;
 	private JPanel panelContrato;
 	private JTable tableDisp;
 	private JTable tableSelected;
-	private JComboBox comboBox_2;
+	private JComboBox cmbxTipo;
+	private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	private Date fechaActual = new Date();
 	private static DefaultTableModel model;
 	private static DefaultTableModel model2;
 	private static Object[] fila;
 	private static Object[] fila2;
 	private static ArrayList<Trabajadores> tSelected = new ArrayList<>();
+	ArrayList<Proyecto> pro = new ArrayList<>();
+	ArrayList<Contrato> cont = new ArrayList<>();
+	private JTextField txtProyecto;
+	private JTextField txtMonto;
 
 	/**
 	 * Launch the application.
@@ -102,12 +107,8 @@ public class NuevosDatos extends JDialog {
 		Image footimage = new ImageIcon(this.getClass().getResource("/footimage.png")).getImage();
 		Image nextimage = new ImageIcon(this.getClass().getResource("/nexticon.png")).getImage();
 		String[] columnNames = {"ID","Cédula","Nombre"};
-		cliente = new DefaultTableModel();
-		cliente.setColumnIdentifiers(columnNames);
-		
-		panelContrato = new JPanel();
-		panelContrato.setLayout(null);
-		panelContrato.setVisible(false);
+		cli = new DefaultTableModel();
+		cli.setColumnIdentifiers(columnNames);
 		String[] columnNamesdisp = {"Nombre", "Evaluación"};
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(columnNamesdisp);
@@ -132,11 +133,11 @@ public class NuevosDatos extends JDialog {
 		label.setBounds(25, 72, 56, 16);
 		panel.add(label);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBackground(SystemColor.inactiveCaptionBorder);
-		textField.setBounds(93, 68, 350, 21);
-		panel.add(textField);
+		txtCedula = new JTextField();
+		txtCedula.setColumns(10);
+		txtCedula.setBackground(SystemColor.inactiveCaptionBorder);
+		txtCedula.setBounds(93, 68, 350, 21);
+		panel.add(txtCedula);
 		
 		JLabel label_1 = new JLabel("Nombre:");
 		label_1.setBounds(25, 105, 56, 16);
@@ -146,29 +147,29 @@ public class NuevosDatos extends JDialog {
 		label_2.setBounds(25, 140, 68, 16);
 		panel.add(label_2);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBackground(SystemColor.inactiveCaptionBorder);
-		textField_1.setBounds(93, 102, 350, 21);
-		panel.add(textField_1);
+		txtNombre = new JTextField();
+		txtNombre.setColumns(10);
+		txtNombre.setBackground(SystemColor.inactiveCaptionBorder);
+		txtNombre.setBounds(93, 102, 350, 21);
+		panel.add(txtNombre);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBackground(SystemColor.inactiveCaptionBorder);
-		textField_2.setBounds(93, 138, 350, 21);
-		panel.add(textField_2);
+		txtDireccion = new JTextField();
+		txtDireccion.setColumns(10);
+		txtDireccion.setBackground(SystemColor.inactiveCaptionBorder);
+		txtDireccion.setBounds(93, 138, 350, 21);
+		panel.add(txtDireccion);
 		
 		JLabel label_3 = new JLabel("ID:");
 		label_3.setBounds(25, 36, 25, 16);
 		panel.add(label_3);
 		
-		textField_3 = new JTextField();
-		textField_3.setEditable(false);
-		textField_3.setColumns(10);
-		textField_3.setBackground(SystemColor.inactiveCaptionBorder);
-		textField_3.setBounds(96, 33, 99, 21);
-		textField_3.setText("CL-" + Empresa.getInstance().getMisClientes().size() + 1);
-		panel.add(textField_3);
+		txtIDCli = new JTextField();
+		txtIDCli.setEditable(false);
+		txtIDCli.setColumns(10);
+		txtIDCli.setBackground(SystemColor.inactiveCaptionBorder);
+		txtIDCli.setBounds(96, 33, 99, 21);
+		txtIDCli.setText("CL-" + Empresa.getInstance().getMisClientes().size() + 1);
+		panel.add(txtIDCli);
 		
 		JLabel label_4 = new JLabel("");
 		label_4.setIcon(new ImageIcon(footimage));
@@ -230,31 +231,32 @@ public class NuevosDatos extends JDialog {
 		label_6.setBounds(12, 36, 26, 16);
 		panel_2.add(label_6);
 		
-		textField_4 = new JTextField();
-		textField_4.setEditable(false);
-		textField_4.setColumns(10);
-		textField_4.setBackground(SystemColor.inactiveCaptionBorder);
-		textField_4.setBounds(90, 34, 116, 21);
-		panel_2.add(textField_4);
+		txtIDProy = new JTextField();
+		txtIDProy.setEditable(false);
+		txtIDProy.setColumns(10);
+		txtIDProy.setBackground(SystemColor.inactiveCaptionBorder);
+		txtIDProy.setBounds(90, 34, 116, 21);
+		txtIDProy.setText("P-" + Empresa.getInstance().getMisClientes().size() + 1);
+		panel_2.add(txtIDProy);
 		
 		JLabel label_7 = new JLabel("Nombre:");
 		label_7.setBounds(12, 65, 56, 16);
 		panel_2.add(label_7);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBackground(SystemColor.inactiveCaptionBorder);
-		textField_5.setBounds(90, 63, 225, 21);
-		panel_2.add(textField_5);
+		txtNombrePro = new JTextField();
+		txtNombrePro.setColumns(10);
+		txtNombrePro.setBackground(SystemColor.inactiveCaptionBorder);
+		txtNombrePro.setBounds(90, 63, 225, 21);
+		panel_2.add(txtNombrePro);
 		
 		JLabel label_8 = new JLabel("Lenguaje:");
 		label_8.setBounds(358, 65, 62, 16);
 		panel_2.add(label_8);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBackground(SystemColor.inactiveCaptionBorder);
-		comboBox.setBounds(426, 63, 194, 21);
-		panel_2.add(comboBox);
+		JComboBox cmbxLenguaje = new JComboBox();
+		cmbxLenguaje.setBackground(SystemColor.inactiveCaptionBorder);
+		cmbxLenguaje.setBounds(426, 63, 194, 21);
+		panel_2.add(cmbxLenguaje);
 		
 		JLabel label_9 = new JLabel("Descripci\u00F3n:");
 		label_9.setBounds(12, 99, 75, 16);
@@ -264,26 +266,26 @@ public class NuevosDatos extends JDialog {
 		label_10.setBounds(358, 99, 56, 16);
 		panel_2.add(label_10);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBackground(SystemColor.inactiveCaptionBorder);
-		comboBox_1.setBounds(426, 97, 135, 21);
-		panel_2.add(comboBox_1);
+		JComboBox cbmxEstado = new JComboBox();
+		cbmxEstado.setBackground(SystemColor.inactiveCaptionBorder);
+		cbmxEstado.setBounds(426, 97, 135, 21);
+		panel_2.add(cbmxEstado);
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setBackground(SystemColor.inactiveCaptionBorder);
-		textPane.setBounds(90, 97, 225, 60);
-		panel_2.add(textPane);
+		JTextPane txtPaneDesc = new JTextPane();
+		txtPaneDesc.setBackground(SystemColor.inactiveCaptionBorder);
+		txtPaneDesc.setBounds(90, 97, 225, 60);
+		panel_2.add(txtPaneDesc);
 		
 		JLabel label_11 = new JLabel("Cliente:");
 		label_11.setBounds(358, 34, 59, 16);
 		panel_2.add(label_11);
 		
-		textField_6 = new JTextField();
-		textField_6.setEditable(false);
-		textField_6.setColumns(10);
-		textField_6.setBackground(SystemColor.inactiveCaptionBorder);
-		textField_6.setBounds(426, 33, 267, 21);
-		panel_2.add(textField_6);
+		txtCliente = new JTextField();
+		txtCliente.setEditable(false);
+		txtCliente.setColumns(10);
+		txtCliente.setBackground(SystemColor.inactiveCaptionBorder);
+		txtCliente.setBounds(426, 33, 267, 21);
+		panel_2.add(txtCliente);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setLayout(null);
@@ -296,18 +298,18 @@ public class NuevosDatos extends JDialog {
 		label_12.setBounds(12, 23, 38, 16);
 		panel_3.add(label_12);
 		
-		comboBox_2 = new JComboBox();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Jefes de Proyecto", "Dise\u00F1adores", "Planificadores", "Programadores"}));
-		comboBox_2.setBackground(SystemColor.inactiveCaptionBorder);
-		comboBox_2.setBounds(62, 21, 159, 21);
-		panel_3.add(comboBox_2);
-		if(comboBox_2.getSelectedIndex()==1)
+		cmbxTipo = new JComboBox();
+		cmbxTipo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Jefes de Proyecto", "Dise\u00F1adores", "Planificadores", "Programadores"}));
+		cmbxTipo.setBackground(SystemColor.inactiveCaptionBorder);
+		cmbxTipo.setBounds(62, 21, 159, 21);
+		panel_3.add(cmbxTipo);
+		if(cmbxTipo.getSelectedIndex()==1)
 			loadTableJefesDisp();
-		if(comboBox_2.getSelectedIndex()==2)
+		if(cmbxTipo.getSelectedIndex()==2)
 			loadTableDiseDisp();
-		if(comboBox_2.getSelectedIndex()==3)
+		if(cmbxTipo.getSelectedIndex()==3)
 			loadTablePlanDisp();
-		if(comboBox_2.getSelectedIndex()==4)
+		if(cmbxTipo.getSelectedIndex()==4)
 			loadTablePrograDisp();
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -408,6 +410,10 @@ public class NuevosDatos extends JDialog {
 		label_15.setIcon(new ImageIcon(footimage2));
 		label_15.setBounds(12, 386, 260, 50);
 		panel_1.add(label_15);
+		
+		panelContrato = new JPanel();
+		panelContrato.setLayout(null);
+		panelContrato.setVisible(false);
 		panelContrato.setEnabled(false);
 		panelContrato.setBackground(Color.WHITE);
 		panelContrato.setBounds(0, 0, 483, 368);
@@ -417,64 +423,58 @@ public class NuevosDatos extends JDialog {
 		label_16.setBounds(12, 30, 76, 16);
 		panelContrato.add(label_16);
 		
-		textField_7 = new JTextField();
-		textField_7.setEditable(false);
-		textField_7.setColumns(10);
-		textField_7.setBackground(SystemColor.inactiveCaptionBorder);
-		textField_7.setBounds(94, 27, 131, 21);
-		panelContrato.add(textField_7);
+		txtIDCont = new JTextField();
+		txtIDCont.setEditable(false);
+		txtIDCont.setColumns(10);
+		txtIDCont.setBackground(SystemColor.inactiveCaptionBorder);
+		txtIDCont.setBounds(94, 27, 131, 21);
+		txtIDCont.setText("C-" + Empresa.getInstance().getMisClientes().size() + 1);
+		panelContrato.add(txtIDCont);
 		
 		JLabel label_17 = new JLabel("Cliente: ");
 		label_17.setBounds(251, 30, 48, 16);
 		panelContrato.add(label_17);
 		
-		textField_8 = new JTextField();
-		textField_8.setEditable(false);
-		textField_8.setColumns(10);
-		textField_8.setBackground(SystemColor.inactiveCaptionBorder);
-		textField_8.setBounds(325, 27, 148, 21);
-		panelContrato.add(textField_8);
+		txtClienteCont = new JTextField();
+		txtClienteCont.setEditable(false);
+		txtClienteCont.setColumns(10);
+		txtClienteCont.setBackground(SystemColor.inactiveCaptionBorder);
+		txtClienteCont.setBounds(325, 27, 148, 21);
+		panelContrato.add(txtClienteCont);
 		
 		JLabel label_18 = new JLabel("Fecha Inicial:");
 		label_18.setBounds(12, 63, 83, 16);
 		panelContrato.add(label_18);
 		
-		textField_9 = new JTextField();
-		textField_9.setEnabled(false);
-		textField_9.setEditable(false);
-		textField_9.setColumns(10);
-		textField_9.setBackground(SystemColor.inactiveCaptionBorder);
-		textField_9.setBounds(94, 60, 131, 21);
-		panelContrato.add(textField_9);
+		txtFechaIni = new JTextField();
+		txtFechaIni.setEnabled(false);
+		txtFechaIni.setEditable(false);
+		txtFechaIni.setColumns(10);
+		txtFechaIni.setBackground(SystemColor.inactiveCaptionBorder);
+		txtFechaIni.setBounds(94, 60, 131, 21);
+		txtFechaIni.setText(dateFormat.format(fechaActual));
+		panelContrato.add(txtFechaIni);
 		
 		JLabel label_19 = new JLabel("Fecha Final: ");
 		label_19.setBounds(251, 63, 74, 16);
 		panelContrato.add(label_19);
 		
-		textField_10 = new JTextField();
-		textField_10.setColumns(10);
-		textField_10.setBackground(SystemColor.inactiveCaptionBorder);
-		textField_10.setBounds(325, 59, 148, 21);
-		panelContrato.add(textField_10);
-		
-		JLabel label_20 = new JLabel("Entrega: ");
-		label_20.setBounds(12, 97, 56, 16);
-		panelContrato.add(label_20);
-		
-		textField_11 = new JTextField();
-		textField_11.setColumns(10);
-		textField_11.setBackground(SystemColor.inactiveCaptionBorder);
-		textField_11.setBounds(94, 94, 116, 22);
-		panelContrato.add(textField_11);
+		txtFechaFin = new JTextField();
+		txtFechaFin.setColumns(10);
+		txtFechaFin.setBackground(SystemColor.inactiveCaptionBorder);
+		txtFechaFin.setBounds(325, 59, 148, 21);
+		panelContrato.add(txtFechaFin);
 		
 		JLabel label_21 = new JLabel("Proyecto: ");
-		label_21.setBounds(251, 97, 64, 16);
+		label_21.setBounds(12, 95, 64, 16);
 		panelContrato.add(label_21);
 		
-		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setBackground(SystemColor.inactiveCaptionBorder);
-		comboBox_3.setBounds(325, 94, 146, 21);
-		panelContrato.add(comboBox_3);
+		txtProyecto = new JTextField();
+		txtProyecto.setEditable(false);
+		txtProyecto.setBounds(94, 92, 120, 21);
+		panelContrato.add(txtProyecto);
+		txtProyecto.setText(txtIDProy.getText());
+		txtProyecto.setColumns(10);
 		
 		JButton btnBackContracto = new JButton("");
 		btnBackContracto.addActionListener(new ActionListener() {
@@ -502,14 +502,25 @@ public class NuevosDatos extends JDialog {
 		JButton btnSave = new JButton("");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String cedula = textField.getText();
-				String nombreCliente = textField_1.getText();
-				String direccion = textField_2.getText();
-				Cliente cliente = new Cliente(cedula, nombreCliente, direccion);
-				String nombreProyecto = textField_5.getText();
-				String descripcion = textPane.getText();
-				String lenguaje = (String)comboBox.getSelectedItem();
-				//Proyecto proyecto = new Proyecto(nombreProyecto, descripcion, lenguaje, estado);
+				/////////////Cliente///////////////
+				String cedula = txtCedula.getText();
+				String nombre = txtNombre.getText();
+				String direccion = txtDireccion.getText();
+				
+				Cliente cli = new Cliente(cedula, nombre, direccion);
+				/////////////Proyecto///////////////
+				String nombreProyecto = txtNombrePro.getText();
+				String descripcion = txtPaneDesc.getText();
+				String lenguaje = (String)cmbxLenguaje.getSelectedItem();
+				String estado = null;
+				
+				Proyecto proyecto = new Proyecto(nombreProyecto, descripcion, lenguaje, estado);
+						
+				/////////////Contrato///////////////
+				
+				String id  = txtIDCont.getText();
+				String cliente = txtClienteCont.getText();
+				String proyecto1 = txtProyecto.getText();
 				Date fechaInicial = new Date();
 				Date fechaFinal = new Date();
 				long moto = 0;
@@ -518,8 +529,8 @@ public class NuevosDatos extends JDialog {
 				}
 				int tiempo = (int) ((fechaFinal.getTime() - fechaInicial.getTime()) / (1000*60*60*24));
 				long monto = (long) ((tiempo*model2.getRowCount()*8*moto)*1.15);
-				String id = textField_7.getText();
-				//Contrato contrato = new Contrato(fechaInicial, fechaFinal, id, cliente, proyecto, monto);
+			
+				//Contrato contrato = new Contrato(fechaActual, fechaFinal, id, cliente, proyecto, monto);
 			}
 		});
 		btnSave.setIcon(new ImageIcon(save));
@@ -535,6 +546,21 @@ public class NuevosDatos extends JDialog {
 		label_24.setIcon(new ImageIcon(logo2));
 		label_24.setBounds(12, 217, 260, 50);
 		panelContrato.add(label_24);
+		
+		JLabel label_20 = new JLabel("Monto:");
+		label_20.setBounds(251, 94, 56, 16);
+		panelContrato.add(label_20);
+		
+		txtMonto = new JTextField();
+		txtMonto.setEditable(false);
+		txtMonto.setColumns(10);
+		txtMonto.setBackground(SystemColor.inactiveCaptionBorder);
+		txtMonto.setBounds(325, 92, 98, 21);
+		panelContrato.add(txtMonto);
+		
+		JLabel label_25 = new JLabel("RD$");
+		label_25.setBounds(424, 94, 32, 16);
+		panelContrato.add(label_25);
 	}
 	public static void loadTableJefesDisp() {
 		model.setRowCount(0);

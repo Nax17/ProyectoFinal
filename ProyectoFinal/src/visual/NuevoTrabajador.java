@@ -10,8 +10,17 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import logical.Designer;
+import logical.Empresa;
+import logical.JefeProyecto;
+import logical.Planificador;
+import logical.Programador;
+import logical.Proyecto;
+import logical.Trabajadores;
+
 import java.awt.Toolkit;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -25,14 +34,25 @@ import java.awt.event.ActionEvent;
 public class NuevoTrabajador extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField txtIDWorker;
+	private JTextField txtCedula;
+	private JTextField txtNombre;
+	private JTextField txtDireccion;
+	private JTextField txtSalario;
+	private JTextField txtEdad;
 	private DefaultTableModel model;
-	private JTextField textField_6;
+	private JTextField txtFrecuencia;
+	private JLabel lblFrecuenciaDe;
+	private JLabel lblDias;
+	private JLabel lblLenguaje;
+	private JComboBox cmbxLenguaje;
+	private Trabajadores trab;
+	private Designer WDis;
+	private JefeProyecto WJefe;
+	private Planificador WPlan;
+	private Programador WProg;
+	private JComboBox cmbxEspecializacion;
+	private JComboBox cmbxSexo;
 
 	/**
 	 * Launch the application.
@@ -69,12 +89,13 @@ public class NuevoTrabajador extends JDialog {
 				panel.add(lblId);
 			}
 			{
-				textField = new JTextField();
-				textField.setBackground(SystemColor.inactiveCaptionBorder);
-				textField.setEditable(false);
-				textField.setBounds(82, 13, 179, 21);
-				panel.add(textField);
-				textField.setColumns(10);
+				txtIDWorker = new JTextField();
+				txtIDWorker.setBackground(SystemColor.inactiveCaptionBorder);
+				txtIDWorker.setEditable(false);
+				txtIDWorker.setBounds(82, 13, 179, 21);
+				txtIDWorker.setText("W-" + Empresa.getInstance().getMisClientes().size() + 1);
+				panel.add(txtIDWorker);
+				txtIDWorker.setColumns(10);
 			}
 			{
 				JLabel lblCdula = new JLabel("C\u00E9dula:");
@@ -82,11 +103,11 @@ public class NuevoTrabajador extends JDialog {
 				panel.add(lblCdula);
 			}
 			{
-				textField_1 = new JTextField();
-				textField_1.setBackground(SystemColor.inactiveCaptionBorder);
-				textField_1.setColumns(10);
-				textField_1.setBounds(82, 49, 201, 21);
-				panel.add(textField_1);
+				txtCedula = new JTextField();
+				txtCedula.setBackground(SystemColor.inactiveCaptionBorder);
+				txtCedula.setColumns(10);
+				txtCedula.setBounds(82, 49, 201, 21);
+				panel.add(txtCedula);
 			}
 			{
 				JLabel lblNombre = new JLabel("Nombre:");
@@ -94,11 +115,11 @@ public class NuevoTrabajador extends JDialog {
 				panel.add(lblNombre);
 			}
 			{
-				textField_2 = new JTextField();
-				textField_2.setBackground(SystemColor.inactiveCaptionBorder);
-				textField_2.setColumns(10);
-				textField_2.setBounds(82, 80, 201, 21);
-				panel.add(textField_2);
+				txtNombre = new JTextField();
+				txtNombre.setBackground(SystemColor.inactiveCaptionBorder);
+				txtNombre.setColumns(10);
+				txtNombre.setBounds(82, 80, 201, 21);
+				panel.add(txtNombre);
 			}
 			{
 				JLabel lblDireccin = new JLabel("Direcci\u00F3n: ");
@@ -106,11 +127,11 @@ public class NuevoTrabajador extends JDialog {
 				panel.add(lblDireccin);
 			}
 			{
-				textField_3 = new JTextField();
-				textField_3.setBackground(SystemColor.inactiveCaptionBorder);
-				textField_3.setColumns(10);
-				textField_3.setBounds(82, 109, 201, 21);
-				panel.add(textField_3);
+				txtDireccion = new JTextField();
+				txtDireccion.setBackground(SystemColor.inactiveCaptionBorder);
+				txtDireccion.setColumns(10);
+				txtDireccion.setBounds(82, 109, 201, 21);
+				panel.add(txtDireccion);
 			}
 			{
 				JLabel lblTelfono = new JLabel("Salario: ");
@@ -118,11 +139,11 @@ public class NuevoTrabajador extends JDialog {
 				panel.add(lblTelfono);
 			}
 			{
-				textField_4 = new JTextField();
-				textField_4.setBackground(SystemColor.inactiveCaptionBorder);
-				textField_4.setColumns(10);
-				textField_4.setBounds(438, 81, 100, 21);
-				panel.add(textField_4);
+				txtSalario = new JTextField();
+				txtSalario.setBackground(SystemColor.inactiveCaptionBorder);
+				txtSalario.setColumns(10);
+				txtSalario.setBounds(438, 81, 100, 21);
+				panel.add(txtSalario);
 			}
 			{
 				JLabel lblEdad = new JLabel("Edad: ");
@@ -130,11 +151,11 @@ public class NuevoTrabajador extends JDialog {
 				panel.add(lblEdad);
 			}
 			
-			textField_5 = new JTextField();
-			textField_5.setBackground(SystemColor.inactiveCaptionBorder);
-			textField_5.setBounds(438, 49, 67, 22);
-			panel.add(textField_5);
-			textField_5.setColumns(10);
+			txtEdad = new JTextField();
+			txtEdad.setBackground(SystemColor.inactiveCaptionBorder);
+			txtEdad.setBounds(438, 49, 39, 22);
+			panel.add(txtEdad);
+			txtEdad.setColumns(10);
 			{
 				JLabel lblRd = new JLabel("RD$");
 				lblRd.setBounds(539, 83, 33, 16);
@@ -146,12 +167,12 @@ public class NuevoTrabajador extends JDialog {
 				panel.add(lblEvaluacin);
 			}
 			{
-				JComboBox comboBox = new JComboBox();
-				comboBox.setBackground(SystemColor.inactiveCaptionBorder);
-				comboBox.setEnabled(false);
-				comboBox.setModel(new DefaultComboBoxModel(new String[] {"Sin evaluar (Por defecto)"}));
-				comboBox.setBounds(82, 139, 179, 21);
-				panel.add(comboBox);
+				JComboBox cmbxEvaluacion = new JComboBox();
+				cmbxEvaluacion.setBackground(SystemColor.inactiveCaptionBorder);
+				cmbxEvaluacion.setEnabled(false);
+				cmbxEvaluacion.setModel(new DefaultComboBoxModel(new String[] {"Sin evaluar (Por defecto)"}));
+				cmbxEvaluacion.setBounds(82, 139, 179, 21);
+				panel.add(cmbxEvaluacion);
 			}
 			{
 				JLabel lblEspecializacin = new JLabel("Especializaci\u00F3n:");
@@ -159,11 +180,42 @@ public class NuevoTrabajador extends JDialog {
 				panel.add(lblEspecializacin);
 			}
 			{
-				JComboBox comboBox = new JComboBox();
-				comboBox.setBackground(SystemColor.inactiveCaptionBorder);
-				comboBox.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Jefe de Proyecto", "Dise\u00F1ador", "Programador", "Planificador"}));
-				comboBox.setBounds(438, 110, 179, 21);
-				panel.add(comboBox);
+				cmbxEspecializacion = new JComboBox();
+				cmbxEspecializacion.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						if(cmbxEspecializacion.getSelectedIndex() == 3){
+							lblLenguaje.setEnabled(true);
+							lblLenguaje.setVisible(true);
+							cmbxLenguaje.setVisible(true);
+							cmbxLenguaje.setEnabled(true);
+							
+							lblFrecuenciaDe.setEnabled(false);
+							lblFrecuenciaDe.setVisible(false);
+							txtFrecuencia.setVisible(false);
+							txtFrecuencia.setEnabled(false);
+							lblDias.setVisible(false);
+							lblDias.setEnabled(false);
+						}
+						if(cmbxEspecializacion.getSelectedIndex() == 4){
+							lblFrecuenciaDe.setEnabled(true);
+							lblFrecuenciaDe.setVisible(true);
+							txtFrecuencia.setVisible(true);
+							txtFrecuencia.setEnabled(true);
+							lblDias.setVisible(true);
+							lblDias.setEnabled(true);
+							
+							lblLenguaje.setEnabled(false);
+							lblLenguaje.setVisible(false);
+							cmbxLenguaje.setVisible(false);
+							cmbxLenguaje.setEnabled(false);
+							
+						}
+					}
+				});
+				cmbxEspecializacion.setBackground(SystemColor.inactiveCaptionBorder);
+				cmbxEspecializacion.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Jefe de Proyecto", "Dise\u00F1ador", "Programador", "Planificador"}));
+				cmbxEspecializacion.setBounds(438, 110, 179, 21);
+				panel.add(cmbxEspecializacion);
 			}
 			{
 				{
@@ -173,34 +225,42 @@ public class NuevoTrabajador extends JDialog {
 				}
 			}
 			{
-				JLabel lblFrecuenciaDe = new JLabel("Frecuencia:  ");
+				lblFrecuenciaDe = new JLabel("Frecuencia:  ");
 				lblFrecuenciaDe.setBounds(343, 141, 83, 16);
+				lblFrecuenciaDe.setVisible(false);
+				lblFrecuenciaDe.setEnabled(false);
 				panel.add(lblFrecuenciaDe);
 			}
 			{
-				textField_6 = new JTextField();
-				textField_6.setBackground(SystemColor.inactiveCaptionBorder);
-				textField_6.setColumns(10);
-				textField_6.setBounds(438, 138, 67, 22);
-				panel.add(textField_6);
+				txtFrecuencia = new JTextField();
+				txtFrecuencia.setBackground(SystemColor.inactiveCaptionBorder);
+				txtFrecuencia.setColumns(10);
+				txtFrecuencia.setVisible(false);
+				txtFrecuencia.setEnabled(false);
+				txtFrecuencia.setBounds(438, 138, 67, 22);
+				panel.add(txtFrecuencia);
 			}
 			{
-				JLabel lblNewLabel = new JLabel("d\u00EDas");
-				lblNewLabel.setBounds(508, 141, 56, 16);
-				panel.add(lblNewLabel);
+				lblDias = new JLabel("d\u00EDas");
+				lblDias.setBounds(508, 141, 56, 16);
+				lblDias.setVisible(false);
+				lblDias.setEnabled(false);
+				panel.add(lblDias);
 			}
 			{
-				JLabel lblLenguaje = new JLabel("Lenguaje: ");
+				lblLenguaje = new JLabel("Lenguaje: ");
 				lblLenguaje.setEnabled(false);
+				lblLenguaje.setVisible(false);
 				lblLenguaje.setBounds(343, 141, 61, 16);
 				panel.add(lblLenguaje);
 			}
 			{
-				JComboBox comboBox = new JComboBox();
-				comboBox.setBackground(SystemColor.inactiveCaptionBorder);
-				comboBox.setEnabled(false);
-				comboBox.setBounds(438, 139, 179, 21);
-				panel.add(comboBox);
+				cmbxLenguaje = new JComboBox();
+				cmbxLenguaje.setBackground(SystemColor.inactiveCaptionBorder);
+				cmbxLenguaje.setEnabled(false);
+				cmbxLenguaje.setVisible(false);
+				cmbxLenguaje.setBounds(438, 139, 179, 21);
+				panel.add(cmbxLenguaje);
 			}
 			{
 				JLabel label = new JLabel("");
@@ -213,6 +273,60 @@ public class NuevoTrabajador extends JDialog {
 				JButton btnSave = new JButton("");
 				btnSave.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						if(cmbxEspecializacion.getSelectedIndex() == 1){
+							
+							String id = txtCedula.getText();
+							String nombre = txtNombre.getText();
+							String direccion = txtDireccion.getText();
+							String sexo = (String) cmbxSexo.getSelectedItem();
+							Integer edad = Integer.valueOf(txtEdad.getText());
+							Long salario  = Long.valueOf(txtSalario.getText());
+							String evaluacion = "Sin Evaluar";
+							int cantWorker = 0;
+							JefeProyecto jefe = new JefeProyecto(id, nombre, direccion, sexo, edad, salario, evaluacion, cantWorker);
+						}
+						
+						if(cmbxEspecializacion.getSelectedIndex() == 2){
+							
+							String id = txtCedula.getText();
+							String nombre = txtNombre.getText();
+							String direccion = txtDireccion.getText();
+							String sexo = (String) cmbxSexo.getSelectedItem();
+							Integer edad = Integer.valueOf(txtEdad.getText());
+							Long salario  = Long.valueOf(txtSalario.getText());
+							String evaluacion = "Sin Evaluar";
+							Designer des = new Designer(id, nombre, direccion, sexo, edad, salario, evaluacion);
+						}
+						
+						if(cmbxEspecializacion.getSelectedIndex() == 3){
+							
+							String id = txtCedula.getText();
+							String nombre = txtNombre.getText();
+							String direccion = txtDireccion.getText();
+							String sexo = (String) cmbxSexo.getSelectedItem();
+							Integer edad = Integer.valueOf(txtEdad.getText());
+							Long salario  = Long.valueOf(txtSalario.getText());
+							String evaluacion = "Sin Evaluar";
+							String lenguajes = (String) cmbxLenguaje.getSelectedItem();
+							Proyecto proyecto = null;
+							Programador prog = new Programador(id, nombre, direccion, sexo, edad, salario, evaluacion, lenguajes, proyecto);
+						}
+						
+						if(cmbxEspecializacion.getSelectedIndex() == 4){
+							
+							String id = txtCedula.getText();
+							String nombre = txtNombre.getText();
+							String direccion = txtDireccion.getText();
+							String sexo = (String) cmbxSexo.getSelectedItem();
+							Integer edad = Integer.valueOf(txtEdad.getText());
+							Long salario  = Long.valueOf(txtSalario.getText());
+							String evaluacion = "Sin Evaluar";
+							Integer diasFrecuencia = Integer.valueOf(txtFrecuencia.getText());
+							
+							Planificador plan = new Planificador(id, nombre, direccion, sexo, edad, salario, evaluacion, diasFrecuencia);
+						}
+						JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Información", JOptionPane.INFORMATION_MESSAGE);
+					
 					}
 				});
 				Image save = new ImageIcon(this.getClass().getResource("/save_button.png")).getImage();
@@ -243,6 +357,18 @@ public class NuevoTrabajador extends JDialog {
 				JLabel lblCancelar = new JLabel("Cancelar");
 				lblCancelar.setBounds(442, 243, 56, 16);
 				panel.add(lblCancelar);
+			}
+			{
+				JLabel lblSexo = new JLabel("Sexo:");
+				lblSexo.setBounds(489, 52, 39, 16);
+				panel.add(lblSexo);
+			}
+			{
+				cmbxSexo = new JComboBox();
+				cmbxSexo.setModel(new DefaultComboBoxModel(new String[] {"<Elegir>", "M", "F"}));
+				cmbxSexo.setBackground(SystemColor.inactiveCaptionBorder);
+				cmbxSexo.setBounds(534, 50, 83, 21);
+				panel.add(cmbxSexo);
 			}
 		}
 	}
