@@ -7,17 +7,19 @@ public class Proyecto {
 	private String descripcion;
 	private ArrayList<Trabajadores> misTrabajadores;
 	private String lenguaje;
+	private String estado;
 	
 	public void addTrabajador(Trabajadores t){
 		misTrabajadores.add(t);
 	}
 	
 	
-	public Proyecto(String nombre, String descripcion, String lenguaje) {
+	public Proyecto(String nombre, String descripcion, String lenguaje, String estado) {
 		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.lenguaje = lenguaje;
+		this.estado = estado;
 	}
 
 
@@ -44,5 +46,15 @@ public class Proyecto {
 	}
 	public void setLenguaje(String lenguaje) {
 		this.lenguaje = lenguaje;
+	}
+
+
+	public String getEstado() {
+		return estado;
+	}
+
+
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 }

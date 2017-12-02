@@ -509,7 +509,7 @@ public class NuevosDatos extends JDialog {
 				String nombreProyecto = textField_5.getText();
 				String descripcion = textPane.getText();
 				String lenguaje = (String)comboBox.getSelectedItem();
-				Proyecto proyecto = new Proyecto(nombreProyecto, descripcion, lenguaje);
+				//Proyecto proyecto = new Proyecto(nombreProyecto, descripcion, lenguaje, estado);
 				Date fechaInicial = new Date();
 				Date fechaFinal = new Date();
 				long moto = 0;
@@ -519,7 +519,7 @@ public class NuevosDatos extends JDialog {
 				int tiempo = (int) ((fechaFinal.getTime() - fechaInicial.getTime()) / (1000*60*60*24));
 				long monto = (long) ((tiempo*model2.getRowCount()*8*moto)*1.15);
 				String id = textField_7.getText();
-				Contrato contrato = new Contrato(fechaInicial, fechaFinal, id, cliente, proyecto, monto);
+				//Contrato contrato = new Contrato(fechaInicial, fechaFinal, id, cliente, proyecto, monto);
 			}
 		});
 		btnSave.setIcon(new ImageIcon(save));
