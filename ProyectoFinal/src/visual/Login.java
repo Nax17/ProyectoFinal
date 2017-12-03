@@ -94,7 +94,7 @@ public class Login extends JDialog {
 				JButton cancelButton = new JButton("Salir");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						dispose();
+						System.exit(0);
 					}
 				});
 				cancelButton.setActionCommand("Cancel");

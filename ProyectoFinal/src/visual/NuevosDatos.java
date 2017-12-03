@@ -520,8 +520,6 @@ public class NuevosDatos extends JDialog {
 				/////////////Contrato///////////////
 				
 				String id  = txtIDCont.getText();
-				String cliente = txtClienteCont.getText();
-				String proyecto1 = txtProyecto.getText();
 				Date fechaInicial = new Date();
 				Date fechaFinal = new Date();
 				long moto = 0;
@@ -531,7 +529,7 @@ public class NuevosDatos extends JDialog {
 				int tiempo = (int) ((fechaFinal.getTime() - fechaInicial.getTime()) / (1000*60*60*24));
 				long monto = (long) ((tiempo*model2.getRowCount()*8*moto)*1.15);
 			
-				//Contrato contrato = new Contrato(fechaActual, fechaFinal, id, cliente, proyecto, monto);
+				//Contrato contrato = new Contrato(fechaInicial, fechaFinal, id, cli, proyecto, monto);
 				//Empresa.getInstance().getMisContratos().add(contrato);	
 			}
 		});
@@ -558,6 +556,7 @@ public class NuevosDatos extends JDialog {
 		txtMonto.setColumns(10);
 		txtMonto.setBackground(SystemColor.inactiveCaptionBorder);
 		txtMonto.setBounds(325, 92, 98, 21);
+		//txtMonto.setText(t);
 		panelContrato.add(txtMonto);
 		
 		JLabel label_25 = new JLabel("RD$");
