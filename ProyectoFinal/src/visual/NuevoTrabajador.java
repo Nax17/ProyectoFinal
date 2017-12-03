@@ -30,6 +30,7 @@ import javax.swing.JTable;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.print.Printable;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class NuevoTrabajador extends JDialog {
@@ -276,7 +277,8 @@ public class NuevoTrabajador extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						if(cmbxEspecializacion.getSelectedIndex() == 1){
 							
-							String id = txtCedula.getText();
+							String id = txtIDWorker.getText();
+							String cedula = txtCedula.getText();
 							String nombre = txtNombre.getText();
 							String direccion = txtDireccion.getText();
 							String sexo = (String) cmbxSexo.getSelectedItem();
@@ -284,28 +286,32 @@ public class NuevoTrabajador extends JDialog {
 							Long salario  = Long.valueOf(txtSalario.getText());
 							String evaluacion = "Sin Evaluar";
 							int cantWorker = 0;
-							JefeProyecto jefe = new JefeProyecto(id, nombre, direccion, sexo, edad, salario, evaluacion, cantWorker);
+							ArrayList misProyectos = null;
+							JefeProyecto jefe = new JefeProyecto(id, cedula, nombre, direccion, sexo, edad, salario, evaluacion, cantWorker, misProyectos);
 							Empresa.getInstance().getMisTrabajadores().add(jefe);
 							System.out.println(jefe.getCedula());
 						}
 						
 						if(cmbxEspecializacion.getSelectedIndex() == 2){
 							
-							String id = txtCedula.getText();
+							String id = txtIDWorker.getText();
+							String cedula = txtCedula.getText();
 							String nombre = txtNombre.getText();
 							String direccion = txtDireccion.getText();
 							String sexo = (String) cmbxSexo.getSelectedItem();
 							Integer edad = Integer.valueOf(txtEdad.getText());
 							Long salario  = Long.valueOf(txtSalario.getText());
 							String evaluacion = "Sin Evaluar";
-							Designer des = new Designer(id, nombre, direccion, sexo, edad, salario, evaluacion);
+							ArrayList misProyectos = null;
+							Designer des = new Designer(id, cedula, nombre, direccion, sexo, edad, salario, evaluacion, misProyectos);
 							Empresa.getInstance().getMisTrabajadores().add(des);
 							
 						}
 						
 						if(cmbxEspecializacion.getSelectedIndex() == 3){
 							
-							String id = txtCedula.getText();
+							String id = txtIDWorker.getText();
+							String cedula = txtCedula.getText();
 							String nombre = txtNombre.getText();
 							String direccion = txtDireccion.getText();
 							String sexo = (String) cmbxSexo.getSelectedItem();
@@ -314,13 +320,14 @@ public class NuevoTrabajador extends JDialog {
 							String evaluacion = "Sin Evaluar";
 							String lenguajes = (String) cmbxLenguaje.getSelectedItem();
 							Proyecto proyecto = null;
-							Programador prog = new Programador(id, nombre, direccion, sexo, edad, salario, evaluacion, lenguajes, proyecto);
+							Programador prog = new Programador(id, cedula, nombre, direccion, sexo, edad, salario, evaluacion, lenguajes, proyecto);
 							Empresa.getInstance().getMisTrabajadores().add(prog);
 						}
 						
 						if(cmbxEspecializacion.getSelectedIndex() == 4){
 							
-							String id = txtCedula.getText();
+							String id = txtIDWorker.getText();
+							String cedula = txtCedula.getText();
 							String nombre = txtNombre.getText();
 							String direccion = txtDireccion.getText();
 							String sexo = (String) cmbxSexo.getSelectedItem();
@@ -328,8 +335,8 @@ public class NuevoTrabajador extends JDialog {
 							Long salario  = Long.valueOf(txtSalario.getText());
 							String evaluacion = "Sin Evaluar";
 							Integer diasFrecuencia = Integer.valueOf(txtFrecuencia.getText());
-							
-							Planificador plan = new Planificador(id, nombre, direccion, sexo, edad, salario, evaluacion, diasFrecuencia);
+							ArrayList misProyectos = null;
+							Planificador plan = new Planificador(id, cedula, nombre, direccion, sexo, edad, salario, evaluacion, diasFrecuencia, misProyectos);
 							Empresa.getInstance().getMisTrabajadores().add(plan);
 						}
 						JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Información", JOptionPane.INFORMATION_MESSAGE);

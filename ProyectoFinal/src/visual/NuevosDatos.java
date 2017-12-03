@@ -503,33 +503,37 @@ public class NuevosDatos extends JDialog {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				/////////////Cliente///////////////
+				String idcli = txtIDCli.getText();
 				String cedula = txtCedula.getText();
 				String nombre = txtNombre.getText();
 				String direccion = txtDireccion.getText();
+				ArrayList misProyectos = null;
 				
-				Cliente cli = new Cliente(cedula, nombre, direccion);
+				Cliente cli = new Cliente(idcli, cedula, nombre, direccion, misProyectos);
 				Empresa.getInstance().getMisClientes().add(cli);
 				/////////////Proyecto///////////////
+				String id = txtIDProy.getText();
 				String nombreProyecto = txtNombrePro.getText();
 				String descripcion = txtPaneDesc.getText();
 				String lenguaje = (String)cmbxLenguaje.getSelectedItem();
 				String estado = null;
+				ArrayList misTrabajadores = null;
 				
-				Proyecto proyecto = new Proyecto(nombreProyecto, descripcion, lenguaje, estado);
+				Proyecto proyecto = new Proyecto(id, nombreProyecto, descripcion, misTrabajadores, lenguaje, estado);
 				Empresa.getInstance().getMisProyectos().add(proyecto);	
 				/////////////Contrato///////////////
 				
-				String id  = txtIDCont.getText();
-				Date fechaInicial = new Date();
+				String idcon  = txtIDCont.getText();
+				Date fechaInicio = new Date();
 				Date fechaFinal = new Date();
 				long moto = 0;
 				for (Trabajadores t : tSelected) {
 					moto += t.getSalario();
 				}
-				int tiempo = (int) ((fechaFinal.getTime() - fechaInicial.getTime()) / (1000*60*60*24));
+				int tiempo = (int) ((fechaFinal.getTime() - fechaInicio.getTime()) / (1000*60*60*24));
 				long monto = (long) ((tiempo*model2.getRowCount()*8*moto)*1.15);
 			
-				//Contrato contrato = new Contrato(fechaInicial, fechaFinal, id, cli, proyecto, monto);
+				//Contrato contrato = new Contrato(fechaInicio, fechaFinal, idcon, cliente, proyecto, monto);
 				//Empresa.getInstance().getMisContratos().add(contrato);	
 			}
 		});

@@ -150,6 +150,8 @@ public class Principal extends JFrame {
 				panelAdmin.setVisible(false);
 				panelList.setVisible(true);
 				panelInfo.setVisible(false);
+				
+				
 			}
 		});
 		Image list = new ImageIcon(this.getClass().getResource("/list_button.png")).getImage();
@@ -260,7 +262,15 @@ public class Principal extends JFrame {
 		panelAdmin.add(btnNewContract);
 		
 		btnModifyContract = new JButton("");
-		Image EditContract = new ImageIcon(this.getClass().getResource("/edit_contract.png")).getImage();
+		btnModifyContract.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Lists list = new Lists(null, null, null, null, null);
+				list.setLocationRelativeTo(null);
+				list.setModal(true);
+				list.setVisible(true);
+			}
+		});
+		Image EditContract = new ImageIcon(this.getClass().getResource("/list_client.png")).getImage();
 		btnModifyContract.setIcon(new ImageIcon(EditContract));
 		btnModifyContract.setBackground(new Color(255, 255, 255));
 		btnModifyContract.setBounds(414, 31, 78, 73);

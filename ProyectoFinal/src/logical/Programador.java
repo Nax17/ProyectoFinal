@@ -4,8 +4,10 @@ public class Programador extends Trabajadores{
 	private String lenguajes;
 	private Proyecto proyecto;
 
-	public Programador(String id, String nombre, String direccion, String sexo, int edad, long salario, String evaluacion, String lenguajes, Proyecto proyecto) {
-		super(id, nombre, direccion, sexo, edad, salario, evaluacion);
+
+	public Programador(String id, String cedula, String nombre, String direccion, String sexo, int edad, long salario,
+			String evaluacion, String lenguajes, Proyecto proyecto) {
+		super(id, cedula, nombre, direccion, sexo, edad, salario, evaluacion);
 		this.lenguajes = lenguajes;
 		this.proyecto = proyecto;
 	}

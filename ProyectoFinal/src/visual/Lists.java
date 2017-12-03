@@ -10,26 +10,56 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
 import java.awt.SystemColor;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+
+import logical.Cliente;
+import logical.Contrato;
+import logical.Empresa;
+import logical.Proyecto;
+import logical.Trabajadores;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.JLabel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Lists extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTable table;
-	private JTable table_1;
-	private JTable table_2;
-	private JTable table_3;
+	private JTable clientTable;
+	private JTable proyectTable;
+	private JTable contractTable;
+	private JTable workerTable;
 	private DefaultTableModel cli;
 	private DefaultTableModel pro;
 	private DefaultTableModel contr;
 	private DefaultTableModel worker;
+	private JPanel panelFiltContrato;
+	private JPanel panelFiltro;
+	private JScrollPane scrPaneWorker;
+	private JScrollPane scrPaneClient;
+	private JScrollPane scrPaneProyect;
+	private JScrollPane scrPaneContract;
+	private JPanel filtroCliente;
+	private JPanel filtroProyecto;
+	private JPanel filtroContract;
+	private JPanel filtroWorker;
+	private JPanel panelInfo;
+	private static Cliente client;
+	private static Empresa emp;
+	private static Trabajadores trab;
+	private static Contrato cont;
+	private static Proyecto project;
+	private static Object[] filacli;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/* public static void main(String[] args) {
 		try {
 			Lists dialog = new Lists();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -37,14 +67,19 @@ public class Lists extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	} */
 
 	/**
 	 * Create the dialog.
 	 */
-	public Lists() {
+	public Lists(Empresa empresa, Cliente c, Trabajadores work, Contrato contrato, Proyecto proy) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Lists.class.getResource("/favicon.png")));
 		setBounds(100, 100, 846, 555);
+		client = c;
+		emp = empresa;
+		trab = work;
+		cont = contrato;
+		project = proy;
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -58,94 +93,223 @@ public class Lists extends JDialog {
 				JPanel panel_1 = new JPanel();
 				panel_1.setBorder(new TitledBorder(null, "Tipos de Listas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				panel_1.setBackground(SystemColor.inactiveCaptionBorder);
-				panel_1.setBounds(12, 13, 321, 79);
+				panel_1.setBounds(12, 13, 328, 79);
 				panel.add(panel_1);
 				panel_1.setLayout(null);
 				{
 					JButton btnClientes = new JButton("Clientes");
+					btnClientes.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							scrPaneClient.setEnabled(true);
+							scrPaneClient.setVisible(true);
+							scrPaneContract.setVisible(false);
+							scrPaneContract.setEnabled(false);
+							scrPaneProyect.setVisible(false);
+							scrPaneProyect.setEnabled(false);
+							scrPaneWorker.setVisible(false);
+							scrPaneWorker.setEnabled(false);
+							filtroCliente.setVisible(true);
+							filtroCliente.setEnabled(true);
+							filtroContract.setVisible(false);
+							filtroContract.setEnabled(false);
+							filtroProyecto.setVisible(false);
+							filtroProyecto.setEnabled(false);
+							filtroWorker.setVisible(false);
+							filtroWorker.setEnabled(false);
+							panelFiltContrato.setVisible(false);
+							panelFiltContrato.setEnabled(false);
+							panelFiltro.setVisible(true);
+							panelFiltro.setEnabled(true);
+							panelInfo.setVisible(false);
+							panelInfo.setEnabled(false);
+							
+							loadClientTable();
+						}
+
+					});
 					btnClientes.setBackground(SystemColor.inactiveCaptionBorder);
 					btnClientes.setBounds(14, 19, 81, 21);
 					panel_1.add(btnClientes);
 				}
 				{
 					JButton btnProyectos = new JButton("Proyectos");
+					btnProyectos.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							scrPaneClient.setEnabled(false);
+							scrPaneClient.setVisible(false);
+							scrPaneContract.setVisible(false);
+							scrPaneContract.setEnabled(false);
+							scrPaneProyect.setVisible(true);
+							scrPaneProyect.setEnabled(true);
+							scrPaneWorker.setVisible(false);
+							scrPaneWorker.setEnabled(false);
+							filtroCliente.setVisible(false);
+							filtroCliente.setEnabled(false);
+							filtroContract.setVisible(false);
+							filtroContract.setEnabled(false);
+							filtroProyecto.setVisible(true);
+							filtroProyecto.setEnabled(true);
+							filtroWorker.setVisible(false);
+							filtroWorker.setEnabled(false);
+							panelFiltContrato.setVisible(false);
+							panelFiltContrato.setEnabled(false);
+							panelFiltro.setVisible(true);
+							panelFiltro.setEnabled(true);
+							panelInfo.setVisible(false);
+							panelInfo.setEnabled(false);
+						}
+					});
 					btnProyectos.setBackground(SystemColor.inactiveCaptionBorder);
-					btnProyectos.setBounds(113, 19, 87, 21);
+					btnProyectos.setBounds(113, 19, 94, 21);
 					panel_1.add(btnProyectos);
 				}
 				{
 					JButton btnContratos = new JButton("Contratos");
+					btnContratos.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							scrPaneClient.setEnabled(false);
+							scrPaneClient.setVisible(false);
+							scrPaneContract.setVisible(true);
+							scrPaneContract.setEnabled(true);
+							scrPaneProyect.setVisible(false);
+							scrPaneProyect.setEnabled(false);
+							scrPaneWorker.setVisible(false);
+							scrPaneWorker.setEnabled(false);
+							filtroCliente.setVisible(false);
+							filtroCliente.setEnabled(false);
+							filtroContract.setVisible(true);
+							filtroContract.setEnabled(true);
+							filtroProyecto.setVisible(false);
+							filtroProyecto.setEnabled(false);
+							filtroWorker.setVisible(false);
+							filtroWorker.setEnabled(false);
+							panelFiltContrato.setVisible(true);
+							panelFiltContrato.setEnabled(true);
+							panelFiltro.setVisible(false);
+							panelFiltro.setEnabled(false);
+							panelInfo.setVisible(false);
+							panelInfo.setEnabled(false);
+						}
+					});
 					btnContratos.setBackground(SystemColor.inactiveCaptionBorder);
-					btnContratos.setBounds(212, 19, 97, 21);
+					btnContratos.setBounds(219, 19, 97, 21);
 					panel_1.add(btnContratos);
 				}
 				{
 					JButton btnTrabajadores = new JButton("Trabajadores");
+					btnTrabajadores.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							scrPaneClient.setEnabled(false);
+							scrPaneClient.setVisible(false);
+							scrPaneContract.setVisible(false);
+							scrPaneContract.setEnabled(false);
+							scrPaneProyect.setVisible(false);
+							scrPaneProyect.setEnabled(false);
+							scrPaneWorker.setVisible(true);
+							scrPaneWorker.setEnabled(true);
+							filtroCliente.setVisible(false);
+							filtroCliente.setEnabled(false);
+							filtroContract.setVisible(false);
+							filtroContract.setEnabled(false);
+							filtroProyecto.setVisible(false);
+							filtroProyecto.setEnabled(false);
+							filtroWorker.setVisible(true);
+							filtroWorker.setEnabled(true);
+							panelFiltContrato.setVisible(true);
+							panelFiltContrato.setEnabled(true);
+							panelFiltro.setVisible(false);
+							panelFiltro.setEnabled(false);
+							panelInfo.setVisible(false);
+							panelInfo.setEnabled(false);
+						}
+					});
 					btnTrabajadores.setBackground(SystemColor.inactiveCaptionBorder);
 					btnTrabajadores.setBounds(14, 48, 115, 21);
 					panel_1.add(btnTrabajadores);
 				}
 			}
+			
+			panelInfo = new JPanel();
+			panelInfo.setBackground(SystemColor.inactiveCaptionBorder);
+			panelInfo.setBounds(27, 123, 766, 334);
+			panel.add(panelInfo);
+			panelInfo.setLayout(null);
 			{
-				JScrollPane scrPaneWorker = new JScrollPane();
+				JLabel lblEligeUnTipo = new JLabel("Elige un tipo de Lista para ver la informaci\u00F3n de las tablas.");
+				lblEligeUnTipo.setEnabled(false);
+				lblEligeUnTipo.setBounds(177, 152, 352, 16);
+				panelInfo.add(lblEligeUnTipo);
+			}
+			{
+				scrPaneWorker = new JScrollPane();
 				scrPaneWorker.setBounds(36, 130, 750, 317);
+				scrPaneWorker.setEnabled(false);
+				scrPaneWorker.setVisible(false);
 				panel.add(scrPaneWorker);
 				{
-					table_3 = new JTable();
+					workerTable = new JTable();
 					String[] columnNames = {"ID","Cédula","Nombre","Dirección","Sexo","Edad","Salario","Cantidad de proyectos","Evaluación"};
 					worker = new DefaultTableModel();
 					worker.setColumnIdentifiers(columnNames);
-					table_3.setModel(worker);
-					scrPaneWorker.setViewportView(table_3);
+					workerTable.setModel(worker);
+					scrPaneWorker.setViewportView(workerTable);
 				}
 			}
 			{
-				JScrollPane scrPaneClient = new JScrollPane();
+				scrPaneClient = new JScrollPane();
 				scrPaneClient.setBounds(36, 130, 750, 317);
+				scrPaneClient.setEnabled(false);
+				scrPaneClient.setEnabled(false);
 				panel.add(scrPaneClient);
 				{
-					table = new JTable();
+					clientTable = new JTable();
 					String[] columnNames = {"ID","Cédula","Nombre","Dirección","Cantidad de proyectos"};
 					cli = new DefaultTableModel();
 					cli.setColumnIdentifiers(columnNames);
-					table.setModel(cli);
-					scrPaneClient.setViewportView(table);
+					clientTable.setModel(cli);
+					scrPaneClient.setViewportView(clientTable);
 				}
 			}
 			{
-				JScrollPane scrPaneProyect = new JScrollPane();
+				scrPaneProyect = new JScrollPane();
 				scrPaneProyect.setBounds(36, 130, 750, 317);
+				scrPaneProyect.setEnabled(false);
+				scrPaneProyect.setVisible(false);
 				panel.add(scrPaneProyect);
 				{
-					table_1 = new JTable();
+					proyectTable = new JTable();
 					String[] columnNames = {"ID","Nombre","Descripción","Lenguaje","Trabajadores"};
 					pro = new DefaultTableModel();
 					pro.setColumnIdentifiers(columnNames);
-					table.setModel(pro);
-					scrPaneProyect.setViewportView(table_1);
+					proyectTable.setModel(pro);
+					scrPaneProyect.setViewportView(proyectTable);
 				}
 			}
 			{
-				JScrollPane scrPaneContract = new JScrollPane();
+				scrPaneContract = new JScrollPane();
 				scrPaneContract.setBounds(36, 130, 750, 317);
+				scrPaneContract.setEnabled(false);
+				scrPaneContract.setVisible(false);
 				panel.add(scrPaneContract);
 				
-				table_2 = new JTable();
+				contractTable = new JTable();
 				String[] columnNames = {"ID","Cliente","Proyecto","Fecha Inicial","Fecha Final", "Monto"};
 				contr = new DefaultTableModel();
 				contr.setColumnIdentifiers(columnNames);
-				table.setModel(contr);
-				scrPaneContract.setViewportView(table_2);
+				contractTable.setModel(contr);
+				scrPaneContract.setViewportView(contractTable);
 			}
 			{
-				JPanel panelFiltContrato = new JPanel();
+				panelFiltContrato = new JPanel();
 				panelFiltContrato.setLayout(null);
+				panelFiltContrato.setEnabled(false);
+				panelFiltContrato.setVisible(false);
 				panelFiltContrato.setBorder(new TitledBorder(null, "Filtros", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				panelFiltContrato.setBackground(SystemColor.inactiveCaptionBorder);
 				panelFiltContrato.setBounds(435, 13, 358, 79);
 				panel.add(panelFiltContrato);
 				{
-					JPanel filtroContract = new JPanel();
+					filtroContract = new JPanel();
 					filtroContract.setLayout(null);
 					filtroContract.setBackground(SystemColor.inactiveCaptionBorder);
 					filtroContract.setBounds(12, 13, 334, 53);
@@ -176,7 +340,7 @@ public class Lists extends JDialog {
 					}
 				}
 				{
-					JPanel filtroWorker = new JPanel();
+					filtroWorker = new JPanel();
 					filtroWorker.setLayout(null);
 					filtroWorker.setBackground(SystemColor.inactiveCaptionBorder);
 					filtroWorker.setBounds(12, 13, 334, 53);
@@ -214,14 +378,16 @@ public class Lists extends JDialog {
 				}
 			}
 			{
-				JPanel panelFiltro = new JPanel();
+				panelFiltro = new JPanel();
+				panelFiltro.setEnabled(false);
+				panelFiltro.setVisible(false);
 				panelFiltro.setBackground(SystemColor.inactiveCaptionBorder);
 				panelFiltro.setBorder(new TitledBorder(null, "Filtros", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				panelFiltro.setBounds(435, 13, 358, 52);
 				panel.add(panelFiltro);
 				panelFiltro.setLayout(null);
 				{
-					JPanel filtroProyecto = new JPanel();
+					filtroProyecto = new JPanel();
 					filtroProyecto.setLayout(null);
 					filtroProyecto.setBackground(SystemColor.inactiveCaptionBorder);
 					filtroProyecto.setBounds(12, 13, 334, 26);
@@ -246,7 +412,7 @@ public class Lists extends JDialog {
 					}
 				}
 				
-				JPanel filtroCliente = new JPanel();
+				filtroCliente = new JPanel();
 				filtroCliente.setBackground(SystemColor.inactiveCaptionBorder);
 				filtroCliente.setBounds(12, 13, 334, 26);
 				panelFiltro.add(filtroCliente);
@@ -270,5 +436,38 @@ public class Lists extends JDialog {
 				}
 			}
 		}
+	}
+	private void loadClientTable() {
+		
+		{
+			cli.setRowCount(0);
+			DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+			tcr.setHorizontalAlignment(SwingConstants.CENTER);
+			
+			clientTable.getColumnModel().getColumn(0).setCellRenderer(tcr);
+			clientTable.getColumnModel().getColumn(1).setCellRenderer(tcr);
+			clientTable.getColumnModel().getColumn(2).setCellRenderer(tcr);
+			clientTable.getColumnModel().getColumn(3).setCellRenderer(tcr);
+			clientTable.getColumnModel().getColumn(4).setCellRenderer(tcr);
+			
+			filacli = new Object[cli.getColumnCount()];
+			for (int j = 0; j < Empresa.getInstance().getMisClientes().size(); j++) {
+				
+				filacli[0] = Empresa.getInstance().getMisClientes().get(j).getCedula();
+				
+				cli.addRow(filacli);
+			}
+			
+			clientTable.setModel(cli);
+			clientTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			clientTable.getTableHeader().setReorderingAllowed(false);
+			TableColumnModel columnModel = clientTable.getColumnModel();
+			columnModel.getColumn(0).setPreferredWidth(180);
+			columnModel.getColumn(1).setPreferredWidth(200);
+			columnModel.getColumn(2).setPreferredWidth(180);
+			columnModel.getColumn(3).setPreferredWidth(130);
+			columnModel.getColumn(4).setPreferredWidth(80);
+		
+	}
 	}
 }

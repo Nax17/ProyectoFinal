@@ -3,6 +3,7 @@ package logical;
 import java.util.ArrayList;
 
 public class Cliente {
+	private String idcli;
 	private String cedula;
 	private String nombre;
 	private String direccion;
@@ -12,12 +13,15 @@ public class Cliente {
 		misProyectos.add(p);
 	}
 	
-	public Cliente(String cedula, String nombre, String direccion) {
+	public Cliente(String idcli, String cedula, String nombre, String direccion, ArrayList<Proyecto> misProyectos) {
 		super();
+		this.idcli = idcli;
 		this.cedula = cedula;
 		this.nombre = nombre;
 		this.direccion = direccion;
+		this.misProyectos = misProyectos;
 	}
+
 	public String getCedula() {
 		return cedula;
 	}
@@ -41,5 +45,13 @@ public class Cliente {
 	}
 	public void setMisProyectos(ArrayList<Proyecto> misProyectos) {
 		this.misProyectos = misProyectos;
+	}
+
+	public String getIdcli() {
+		return idcli;
+	}
+
+	public void setIdcli(String idcli) {
+		this.idcli = idcli;
 	}
 }
