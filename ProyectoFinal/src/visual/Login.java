@@ -17,6 +17,8 @@ import logical.LoginAdmin;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Login extends JDialog {
 
@@ -42,6 +44,12 @@ public class Login extends JDialog {
 	 * Create the dialog.
 	 */
 	public Login() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
 		setResizable(false);
 		setTitle("Ingresar");
 		setBounds(100, 100, 207, 198);
