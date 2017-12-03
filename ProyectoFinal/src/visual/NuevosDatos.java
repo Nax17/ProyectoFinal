@@ -508,6 +508,7 @@ public class NuevosDatos extends JDialog {
 				String direccion = txtDireccion.getText();
 				
 				Cliente cli = new Cliente(cedula, nombre, direccion);
+				Empresa.getInstance().getMisClientes().add(cli);
 				/////////////Proyecto///////////////
 				String nombreProyecto = txtNombrePro.getText();
 				String descripcion = txtPaneDesc.getText();
@@ -515,7 +516,7 @@ public class NuevosDatos extends JDialog {
 				String estado = null;
 				
 				Proyecto proyecto = new Proyecto(nombreProyecto, descripcion, lenguaje, estado);
-						
+				Empresa.getInstance().getMisProyectos().add(proyecto);	
 				/////////////Contrato///////////////
 				
 				String id  = txtIDCont.getText();
@@ -531,6 +532,7 @@ public class NuevosDatos extends JDialog {
 				long monto = (long) ((tiempo*model2.getRowCount()*8*moto)*1.15);
 			
 				//Contrato contrato = new Contrato(fechaActual, fechaFinal, id, cliente, proyecto, monto);
+				//Empresa.getInstance().getMisContratos().add(contrato);	
 			}
 		});
 		btnSave.setIcon(new ImageIcon(save));

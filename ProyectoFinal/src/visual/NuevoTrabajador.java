@@ -29,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
+import java.awt.print.Printable;
 import java.awt.event.ActionEvent;
 
 public class NuevoTrabajador extends JDialog {
@@ -284,6 +285,8 @@ public class NuevoTrabajador extends JDialog {
 							String evaluacion = "Sin Evaluar";
 							int cantWorker = 0;
 							JefeProyecto jefe = new JefeProyecto(id, nombre, direccion, sexo, edad, salario, evaluacion, cantWorker);
+							Empresa.getInstance().getMisTrabajadores().add(jefe);
+							System.out.println(jefe.getCedula());
 						}
 						
 						if(cmbxEspecializacion.getSelectedIndex() == 2){
@@ -296,6 +299,8 @@ public class NuevoTrabajador extends JDialog {
 							Long salario  = Long.valueOf(txtSalario.getText());
 							String evaluacion = "Sin Evaluar";
 							Designer des = new Designer(id, nombre, direccion, sexo, edad, salario, evaluacion);
+							Empresa.getInstance().getMisTrabajadores().add(des);
+							
 						}
 						
 						if(cmbxEspecializacion.getSelectedIndex() == 3){
@@ -310,6 +315,7 @@ public class NuevoTrabajador extends JDialog {
 							String lenguajes = (String) cmbxLenguaje.getSelectedItem();
 							Proyecto proyecto = null;
 							Programador prog = new Programador(id, nombre, direccion, sexo, edad, salario, evaluacion, lenguajes, proyecto);
+							Empresa.getInstance().getMisTrabajadores().add(prog);
 						}
 						
 						if(cmbxEspecializacion.getSelectedIndex() == 4){
@@ -324,6 +330,7 @@ public class NuevoTrabajador extends JDialog {
 							Integer diasFrecuencia = Integer.valueOf(txtFrecuencia.getText());
 							
 							Planificador plan = new Planificador(id, nombre, direccion, sexo, edad, salario, evaluacion, diasFrecuencia);
+							Empresa.getInstance().getMisTrabajadores().add(plan);
 						}
 						JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Información", JOptionPane.INFORMATION_MESSAGE);
 					
