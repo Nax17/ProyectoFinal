@@ -7,6 +7,7 @@ public class Empresa {
 	private ArrayList<Trabajadores> misTrabajadores = new ArrayList<>();
 	private ArrayList<Cliente> misClientes = new ArrayList<>();
 	private ArrayList<Contrato> misContratos = new ArrayList<>();
+	private ArrayList<Proyecto> misProyectos = new ArrayList<>();
 	
 	public static Empresa getInstance(){
 		if(main == null){
@@ -23,6 +24,9 @@ public class Empresa {
 	}
 	public ArrayList<Contrato> getMisContratos() {
 		return misContratos;
+	}
+	public ArrayList<Proyecto> getMisProyectos() {
+		return misProyectos;
 	}
 	
 	public Trabajadores findTrabajadorByNombre(String nombre){
