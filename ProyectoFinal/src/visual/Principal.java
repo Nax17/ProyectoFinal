@@ -232,6 +232,7 @@ public class Principal extends JFrame {
 				cli.setVisible(true);
 			}
 		});
+		
 		btnNewClient.setBackground(new Color(255, 255, 255));
 		Image newClient = new ImageIcon(this.getClass().getResource("/add_client.png")).getImage();
 		btnNewClient.setIcon(new ImageIcon(newClient));

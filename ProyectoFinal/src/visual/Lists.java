@@ -657,6 +657,7 @@ public class Lists extends JDialog {
 				worker.addRow(filawor);
 			}
 			
+			
 			workerTable.setModel(worker);
 			workerTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			workerTable.getTableHeader().setReorderingAllowed(false);

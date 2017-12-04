@@ -534,6 +534,7 @@ public class NuevosDatos extends JDialog {
 				String nombre = txtNombre.getText();
 				String direccion = txtDireccion.getText();
 				
+				
 				Cliente cli = new Cliente(idcli, cedula, nombre, direccion);
 				Empresa.getInstance().getMisClientes().add(cli);
 				/////////////Proyecto///////////////

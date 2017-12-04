@@ -37,6 +37,7 @@ public class NuevoProyectoAdmin extends JDialog {
 	private JTextField txtFechaFinal;
 	private JPanel panelContrato;
 	private JPanel panelProyecto;
+	
 	/**
 	 * Launch the application.
 	 */

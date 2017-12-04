@@ -37,6 +37,7 @@ public class Login extends JDialog {
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
+			
 		}
 	}
 
