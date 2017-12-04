@@ -13,13 +13,12 @@ public class Cliente {
 		misProyectos.add(p);
 	}
 	
-	public Cliente(String idcli, String cedula, String nombre, String direccion, ArrayList<Proyecto> misProyectos) {
+	public Cliente(String idcli, String cedula, String nombre, String direccion) {
 		super();
 		this.idcli = idcli;
 		this.cedula = cedula;
 		this.nombre = nombre;
 		this.direccion = direccion;
-		this.misProyectos = misProyectos;
 	}
 
 	public String getCedula() {

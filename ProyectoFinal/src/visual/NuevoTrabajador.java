@@ -32,6 +32,8 @@ import java.awt.event.ActionListener;
 import java.awt.print.Printable;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class NuevoTrabajador extends JDialog {
 
@@ -95,7 +97,7 @@ public class NuevoTrabajador extends JDialog {
 				txtIDWorker.setBackground(SystemColor.inactiveCaptionBorder);
 				txtIDWorker.setEditable(false);
 				txtIDWorker.setBounds(82, 13, 179, 21);
-				txtIDWorker.setText("W-" + Empresa.getInstance().getMisClientes().size() + 1);
+				txtIDWorker.setText("W-" + Empresa.getInstance().getMisTrabajadores().size() + 1);
 				panel.add(txtIDWorker);
 				txtIDWorker.setColumns(10);
 			}
@@ -106,6 +108,15 @@ public class NuevoTrabajador extends JDialog {
 			}
 			{
 				txtCedula = new JTextField();
+				txtCedula.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char caracter = e.getKeyChar();
+					      if(((caracter < '0') || (caracter > '9')) && (caracter != '\b') && (caracter != '-')){
+					         e.consume();
+					      }
+					}
+				});
 				txtCedula.setBackground(SystemColor.inactiveCaptionBorder);
 				txtCedula.setColumns(10);
 				txtCedula.setBounds(82, 49, 201, 21);
@@ -142,6 +153,15 @@ public class NuevoTrabajador extends JDialog {
 			}
 			{
 				txtSalario = new JTextField();
+				txtSalario.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char caracter = e.getKeyChar();
+					      if(((caracter < '0') || (caracter > '9')) && (caracter != '\b') && (caracter != '.')){
+					         e.consume();
+					      }
+					}
+				});
 				txtSalario.setBackground(SystemColor.inactiveCaptionBorder);
 				txtSalario.setColumns(10);
 				txtSalario.setBounds(438, 81, 100, 21);
@@ -154,6 +174,15 @@ public class NuevoTrabajador extends JDialog {
 			}
 			
 			txtEdad = new JTextField();
+			txtEdad.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					char caracter = e.getKeyChar();
+				      if(((caracter < '0') || (caracter > '9')) && ((caracter != '\b'))){
+				         e.consume();
+				      }
+				}
+			});
 			txtEdad.setBackground(SystemColor.inactiveCaptionBorder);
 			txtEdad.setBounds(438, 49, 39, 22);
 			panel.add(txtEdad);

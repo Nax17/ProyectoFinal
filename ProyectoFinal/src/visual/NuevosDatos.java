@@ -27,6 +27,7 @@ import logical.Proyecto;
 import logical.Trabajadores;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.SystemColor;
 import javax.swing.JScrollPane;
@@ -34,6 +35,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
@@ -41,6 +43,9 @@ import javax.swing.JComboBox;
 import javax.swing.JTextPane;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ListSelectionModel;
+import datechooser.beans.DateChooserCombo;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class NuevosDatos extends JDialog {
 
@@ -57,8 +62,6 @@ public class NuevosDatos extends JDialog {
 	private JPanel panelCliente;
 	private JTextField txtIDCont;
 	private JTextField txtClienteCont;
-	private JTextField txtFechaIni;
-	private JTextField txtFechaFin;
 	private JPanel panelContrato;
 	private JTable tableDisp;
 	private JTable tableSelected;
@@ -74,6 +77,7 @@ public class NuevosDatos extends JDialog {
 	ArrayList<Contrato> cont = new ArrayList<>();
 	private JTextField txtProyecto;
 	private JTextField txtMonto;
+	private static ArrayList<Programador> proSeleccionables = new ArrayList<>();
 
 	/**
 	 * Launch the application.
@@ -134,6 +138,15 @@ public class NuevosDatos extends JDialog {
 		panel.add(label);
 		
 		txtCedula = new JTextField();
+		txtCedula.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char caracter = e.getKeyChar();
+			      if(((caracter < '0') || (caracter > '9')) && (caracter != '\b') && (caracter != '-')){
+			         e.consume();
+			      }
+			}
+		});
 		txtCedula.setColumns(10);
 		txtCedula.setBackground(SystemColor.inactiveCaptionBorder);
 		txtCedula.setBounds(93, 68, 350, 21);
@@ -188,6 +201,7 @@ public class NuevosDatos extends JDialog {
 				panelProyecto.setVisible(true);
 				panelContrato.setVisible(false);
 				panelContrato.setEnabled(false);
+				txtCliente.setText(txtNombre.getText());
 				
 			}
 		});
@@ -236,7 +250,7 @@ public class NuevosDatos extends JDialog {
 		txtIDProy.setColumns(10);
 		txtIDProy.setBackground(SystemColor.inactiveCaptionBorder);
 		txtIDProy.setBounds(90, 34, 116, 21);
-		txtIDProy.setText("P-" + Empresa.getInstance().getMisClientes().size() + 1);
+		txtIDProy.setText("P-" + Empresa.getInstance().getMisProyectos().size() + 1);
 		panel_2.add(txtIDProy);
 		
 		JLabel label_7 = new JLabel("Nombre:");
@@ -254,6 +268,19 @@ public class NuevosDatos extends JDialog {
 		panel_2.add(label_8);
 		
 		JComboBox cmbxLenguaje = new JComboBox();
+		cmbxLenguaje.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (Trabajadores t : Empresa.getInstance().getMisTrabajadores()) {
+					if(t instanceof Programador){
+						Programador p = (Programador) t;
+						if(p.getLenguajes().equalsIgnoreCase((String)cmbxLenguaje.getSelectedItem())){
+							proSeleccionables.add(p);
+						}
+					}
+				}
+			}
+		});
+		cmbxLenguaje.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "C", "C++", "C#", "Java", "JavaScript", "Python"}));
 		cmbxLenguaje.setBackground(SystemColor.inactiveCaptionBorder);
 		cmbxLenguaje.setBounds(426, 63, 194, 21);
 		panel_2.add(cmbxLenguaje);
@@ -267,6 +294,7 @@ public class NuevosDatos extends JDialog {
 		panel_2.add(label_10);
 		
 		JComboBox cbmxEstado = new JComboBox();
+		cbmxEstado.setModel(new DefaultComboBoxModel(new String[] {"Pendiente", "En proceso"}));
 		cbmxEstado.setBackground(SystemColor.inactiveCaptionBorder);
 		cbmxEstado.setBounds(426, 97, 135, 21);
 		panel_2.add(cbmxEstado);
@@ -299,18 +327,23 @@ public class NuevosDatos extends JDialog {
 		panel_3.add(label_12);
 		
 		cmbxTipo = new JComboBox();
+		cmbxTipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(cmbxTipo.getSelectedIndex()==1)
+					loadTableJefesDisp();
+				if(cmbxTipo.getSelectedIndex()==2)
+					loadTableDiseDisp();
+				if(cmbxTipo.getSelectedIndex()==3)
+					loadTablePlanDisp();
+				if(cmbxTipo.getSelectedIndex()==4)
+					loadTablePrograDisp();
+			}
+		});
 		cmbxTipo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Jefes de Proyecto", "Dise\u00F1adores", "Planificadores", "Programadores"}));
 		cmbxTipo.setBackground(SystemColor.inactiveCaptionBorder);
 		cmbxTipo.setBounds(62, 21, 159, 21);
 		panel_3.add(cmbxTipo);
-		if(cmbxTipo.getSelectedIndex()==1)
-			loadTableJefesDisp();
-		if(cmbxTipo.getSelectedIndex()==2)
-			loadTableDiseDisp();
-		if(cmbxTipo.getSelectedIndex()==3)
-			loadTablePlanDisp();
-		if(cmbxTipo.getSelectedIndex()==4)
-			loadTablePrograDisp();
+		
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(12, 52, 307, 99);
@@ -428,7 +461,7 @@ public class NuevosDatos extends JDialog {
 		txtIDCont.setColumns(10);
 		txtIDCont.setBackground(SystemColor.inactiveCaptionBorder);
 		txtIDCont.setBounds(94, 27, 131, 21);
-		txtIDCont.setText("C-" + Empresa.getInstance().getMisClientes().size() + 1);
+		txtIDCont.setText("C-" + Empresa.getInstance().getMisContratos().size() + 1);
 		panelContrato.add(txtIDCont);
 		
 		JLabel label_17 = new JLabel("Cliente: ");
@@ -446,24 +479,9 @@ public class NuevosDatos extends JDialog {
 		label_18.setBounds(12, 63, 83, 16);
 		panelContrato.add(label_18);
 		
-		txtFechaIni = new JTextField();
-		txtFechaIni.setEnabled(false);
-		txtFechaIni.setEditable(false);
-		txtFechaIni.setColumns(10);
-		txtFechaIni.setBackground(SystemColor.inactiveCaptionBorder);
-		txtFechaIni.setBounds(94, 60, 131, 21);
-		txtFechaIni.setText(dateFormat.format(fechaActual));
-		panelContrato.add(txtFechaIni);
-		
 		JLabel label_19 = new JLabel("Fecha Final: ");
 		label_19.setBounds(251, 63, 74, 16);
 		panelContrato.add(label_19);
-		
-		txtFechaFin = new JTextField();
-		txtFechaFin.setColumns(10);
-		txtFechaFin.setBackground(SystemColor.inactiveCaptionBorder);
-		txtFechaFin.setBounds(325, 59, 148, 21);
-		panelContrato.add(txtFechaFin);
 		
 		JLabel label_21 = new JLabel("Proyecto: ");
 		label_21.setBounds(12, 95, 64, 16);
@@ -499,6 +517,14 @@ public class NuevosDatos extends JDialog {
 		label_22.setBounds(12, 196, 56, 16);
 		panelContrato.add(label_22);
 		
+		DateChooserCombo dateChooserCombo = new DateChooserCombo();
+		dateChooserCombo.setBounds(94, 59, 155, 20);
+		panelContrato.add(dateChooserCombo);
+		
+		DateChooserCombo dateChooserCombo_1 = new DateChooserCombo();
+		dateChooserCombo_1.setBounds(325, 59, 155, 20);
+		panelContrato.add(dateChooserCombo_1);
+		
 		JButton btnSave = new JButton("");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -507,9 +533,8 @@ public class NuevosDatos extends JDialog {
 				String cedula = txtCedula.getText();
 				String nombre = txtNombre.getText();
 				String direccion = txtDireccion.getText();
-				ArrayList misProyectos = null;
 				
-				Cliente cli = new Cliente(idcli, cedula, nombre, direccion, misProyectos);
+				Cliente cli = new Cliente(idcli, cedula, nombre, direccion);
 				Empresa.getInstance().getMisClientes().add(cli);
 				/////////////Proyecto///////////////
 				String id = txtIDProy.getText();
@@ -517,15 +542,17 @@ public class NuevosDatos extends JDialog {
 				String descripcion = txtPaneDesc.getText();
 				String lenguaje = (String)cmbxLenguaje.getSelectedItem();
 				String estado = null;
-				ArrayList misTrabajadores = null;
 				
-				Proyecto proyecto = new Proyecto(id, nombreProyecto, descripcion, misTrabajadores, lenguaje, estado);
+				Proyecto proyecto = new Proyecto(id, nombreProyecto, descripcion, tSelected, lenguaje, estado);
+				cli.addProyecto(proyecto);
 				Empresa.getInstance().getMisProyectos().add(proyecto);	
 				/////////////Contrato///////////////
 				
 				String idcon  = txtIDCont.getText();
-				Date fechaInicio = new Date();
-				Date fechaFinal = new Date();
+				Calendar fechaIni = dateChooserCombo.getCurrent();
+				Date fechaInicio = fechaIni.getTime();
+				Calendar fechaF = dateChooserCombo_1.getCurrent();
+				Date fechaFinal = fechaF.getTime();
 				long moto = 0;
 				for (Trabajadores t : tSelected) {
 					moto += t.getSalario();
@@ -533,8 +560,9 @@ public class NuevosDatos extends JDialog {
 				int tiempo = (int) ((fechaFinal.getTime() - fechaInicio.getTime()) / (1000*60*60*24));
 				long monto = (long) ((tiempo*model2.getRowCount()*8*moto)*1.15);
 			
-				//Contrato contrato = new Contrato(fechaInicio, fechaFinal, idcon, cliente, proyecto, monto);
-				//Empresa.getInstance().getMisContratos().add(contrato);	
+				Contrato contrato = new Contrato(fechaInicio, fechaFinal, idcon, cli, proyecto, monto);
+				Empresa.getInstance().getMisContratos().add(contrato);	
+				JOptionPane.showMessageDialog(null, "Operación Realizada Satisfactoriamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		btnSave.setIcon(new ImageIcon(save));
@@ -615,13 +643,10 @@ public class NuevosDatos extends JDialog {
 	public static void loadTablePrograDisp() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (int i = 0; i < Empresa.getInstance().getMisTrabajadores().size(); i++) {
-			if(Empresa.getInstance().getMisTrabajadores().get(i) instanceof Programador){
-				Programador jefe = (Programador) Empresa.getInstance().getMisTrabajadores().get(i);
-				if(jefe.getProyecto() != null){
-					fila[0] = jefe.getNombre();
-					fila[1] = jefe.getEvaluacion();
-				}
+		for (Programador p : proSeleccionables) {
+			if(p.getProyecto() == null){
+				fila[0] = p.getNombre();
+				fila[1] = p.getEvaluacion();
 			}
 			model.addRow(fila);
 		}
