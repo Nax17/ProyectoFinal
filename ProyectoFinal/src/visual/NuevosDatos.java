@@ -602,10 +602,9 @@ public class NuevosDatos extends JDialog {
 		for (int i = 0; i < Empresa.getInstance().getMisTrabajadores().size(); i++) {
 			if(Empresa.getInstance().getMisTrabajadores().get(i) instanceof JefeProyecto){
 				JefeProyecto jefe = (JefeProyecto) Empresa.getInstance().getMisTrabajadores().get(i);
-				if(jefe.getMisProyectos().size() < 2){
+
 					fila[0] = jefe.getNombre();
 					fila[1] = jefe.getEvaluacion();
-				}
 			}
 			model.addRow(fila);
 		}
@@ -617,10 +616,9 @@ public class NuevosDatos extends JDialog {
 		for (int i = 0; i < Empresa.getInstance().getMisTrabajadores().size(); i++) {
 			if(Empresa.getInstance().getMisTrabajadores().get(i) instanceof Designer){
 				Designer jefe = (Designer) Empresa.getInstance().getMisTrabajadores().get(i);
-				if(jefe.getMisProyectos().size() < 2){
+
 					fila[0] = jefe.getNombre();
 					fila[1] = jefe.getEvaluacion();
-				}
 			}
 			model.addRow(fila);
 		}
@@ -632,10 +630,8 @@ public class NuevosDatos extends JDialog {
 		for (int i = 0; i < Empresa.getInstance().getMisTrabajadores().size(); i++) {
 			if(Empresa.getInstance().getMisTrabajadores().get(i) instanceof Planificador){
 				Planificador jefe = (Planificador) Empresa.getInstance().getMisTrabajadores().get(i);
-				if(jefe.getMisProyectos().size() < 2){
 					fila[0] = jefe.getNombre();
 					fila[1] = jefe.getEvaluacion();
-				}
 			}
 			model.addRow(fila);
 		}

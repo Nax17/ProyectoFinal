@@ -316,7 +316,7 @@ public class NuevoTrabajador extends JDialog {
 							Long salario  = Long.valueOf(txtSalario.getText());
 							String evaluacion = "Sin Evaluar";
 							int cantWorker = 0;
-							ArrayList misProyectos = null;
+							ArrayList<Proyecto> misProyectos = null;
 							JefeProyecto jefe = new JefeProyecto(id, cedula, nombre, direccion, sexo, edad, salario, evaluacion, cantWorker, misProyectos);
 							Empresa.getInstance().getMisTrabajadores().add(jefe);
 							System.out.println(jefe.getCedula());
@@ -332,7 +332,7 @@ public class NuevoTrabajador extends JDialog {
 							Integer edad = Integer.valueOf(txtEdad.getText());
 							Long salario  = Long.valueOf(txtSalario.getText());
 							String evaluacion = "Sin Evaluar";
-							ArrayList misProyectos = null;
+							ArrayList<Proyecto> misProyectos = null;
 							Designer des = new Designer(id, cedula, nombre, direccion, sexo, edad, salario, evaluacion, misProyectos);
 							Empresa.getInstance().getMisTrabajadores().add(des);
 							
@@ -365,11 +365,12 @@ public class NuevoTrabajador extends JDialog {
 							Long salario  = Long.valueOf(txtSalario.getText());
 							String evaluacion = "Sin Evaluar";
 							Integer diasFrecuencia = Integer.valueOf(txtFrecuencia.getText());
-							ArrayList misProyectos = null;
+							ArrayList<Proyecto> misProyectos = null;
 							Planificador plan = new Planificador(id, cedula, nombre, direccion, sexo, edad, salario, evaluacion, diasFrecuencia, misProyectos);
 							Empresa.getInstance().getMisTrabajadores().add(plan);
 						}
 						JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Información", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
 					
 					}
 				});
