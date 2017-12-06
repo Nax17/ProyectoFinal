@@ -158,7 +158,7 @@ public class NuevoTrabajador extends JDialog {
 					@Override
 					public void keyTyped(KeyEvent e) {
 						char caracter = e.getKeyChar();
-					      if(((caracter < '0') || (caracter > '9')) && (caracter != '\b') && (caracter != '.')){
+					      if(((caracter < '0') || (caracter > '9')) && (caracter != '\b')){
 					         e.consume();
 					      }
 					}
@@ -327,6 +327,12 @@ public class NuevoTrabajador extends JDialog {
 				JButton btnSave = new JButton("");
 				btnSave.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						if(txtCedula.getText().equalsIgnoreCase("") || txtNombre.getText().equalsIgnoreCase("") || txtEdad.getText().equalsIgnoreCase("") || txtDireccion.getText().equalsIgnoreCase("") || txtSalario.getText().equalsIgnoreCase("") || cmbxEspecializacion.getSelectedIndex() == 0){
+							JOptionPane.showMessageDialog(null, "Por favor llenar todos los campos.", "ERROR", JOptionPane.WARNING_MESSAGE);
+						}else if(Integer.valueOf(txtEdad.getText()) < 18 || Integer.valueOf(txtEdad.getText()) > 50){
+							JOptionPane.showMessageDialog(null, "Edad del trabajador fuera del rango aceptable (18-50).", "ERROR", JOptionPane.WARNING_MESSAGE);
+						}
+						else{
 						if(cmbxEspecializacion.getSelectedIndex() == 1){
 							
 							String id = txtIDWorker.getText();
@@ -361,7 +367,9 @@ public class NuevoTrabajador extends JDialog {
 						}
 						
 						if(cmbxEspecializacion.getSelectedIndex() == 3){
-							
+							if(cmbxLenguaje.getSelectedIndex() == 0){
+								JOptionPane.showMessageDialog(null, "Seleccione lenguaje del programador.", "ERROR", JOptionPane.WARNING_MESSAGE);
+							}else{
 							String id = txtIDWorker.getText();
 							String cedula = txtCedula.getText();
 							String nombre = txtNombre.getText();
@@ -374,10 +382,13 @@ public class NuevoTrabajador extends JDialog {
 							Proyecto proyecto = null;
 							Programador prog = new Programador(id, cedula, nombre, direccion, sexo, edad, salario, evaluacion, lenguajes, proyecto);
 							Empresa.getInstance().getMisTrabajadores().add(prog);
+							}
 						}
 						
 						if(cmbxEspecializacion.getSelectedIndex() == 4){
-							
+							if(txtFrecuencia.getText().equalsIgnoreCase("")){
+								JOptionPane.showMessageDialog(null, "Ingrese la frecuencia del planificador.", "ERROR", JOptionPane.WARNING_MESSAGE);
+							}else{
 							String id = txtIDWorker.getText();
 							String cedula = txtCedula.getText();
 							String nombre = txtNombre.getText();
@@ -390,10 +401,11 @@ public class NuevoTrabajador extends JDialog {
 							ArrayList<Proyecto> misProyectos = null;
 							Planificador plan = new Planificador(id, cedula, nombre, direccion, sexo, edad, salario, evaluacion, diasFrecuencia, misProyectos);
 							Empresa.getInstance().getMisTrabajadores().add(plan);
+							}
 						}
 						JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Información", JOptionPane.INFORMATION_MESSAGE);
 						dispose();
-					
+						}
 					}
 				});
 				Image save = new ImageIcon(this.getClass().getResource("/save_button.png")).getImage();

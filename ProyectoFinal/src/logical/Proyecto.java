@@ -25,11 +25,7 @@ public class Proyecto {
 		this.lenguaje = lenguaje;
 		this.estado = estado;
 	}
-
-
-
-
-
+	
 	public String getId() {
 		return id;
 	}

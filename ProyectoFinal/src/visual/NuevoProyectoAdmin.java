@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Image;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -12,17 +13,32 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
+import logical.Cliente;
+import logical.Contrato;
+import logical.Designer;
 import logical.Empresa;
+import logical.JefeProyecto;
+import logical.Planificador;
+import logical.Programador;
+import logical.Proyecto;
+import logical.Trabajadores;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.SystemColor;
 import javax.swing.JComboBox;
 import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Date;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import com.toedter.calendar.JDateChooser;
 
 public class NuevoProyectoAdmin extends JDialog {
 
@@ -33,10 +49,24 @@ public class NuevoProyectoAdmin extends JDialog {
 	private JTextField txtFind;
 	private JTextField txtIDCont;
 	private JTextField txtClienteCont;
-	private JTextField txtFechaIni;
-	private JTextField txtFechaFinal;
 	private JPanel panelContrato;
 	private JPanel panelProyecto;
+	private static ArrayList<Programador> proSeleccionables = new ArrayList<>();
+	private static DefaultTableModel model;
+	private static DefaultTableModel model2;
+	private static Object[] fila;
+	private static Object[] fila2;
+	private static ArrayList<Trabajadores> tSelected = new ArrayList<>();
+	private JTable tableDisp;
+	private JTable tableSelected;
+	private JComboBox cmbxTipo;
+	private JComboBox cmbxLenguaje;
+	private JTextPane txtPaneDesc;
+	private Cliente cli;
+	private JTextField textField;
+	private Date fechaInicio;
+	private Date fechaFinal;
+
 	
 	/**
 	 * Launch the application.
@@ -58,6 +88,12 @@ public class NuevoProyectoAdmin extends JDialog {
 		setTitle("Nuevo Proyecto");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(NuevoProyectoAdmin.class.getResource("/favicon.png")));
 		setBounds(100, 100, 764, 559);
+		String[] columnNamesdisp = {"Nombre", "Evaluación"};
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(columnNamesdisp);
+		String[] columnNamesSelected = {"Nombre", "Evaluación"};
+		model2 = new DefaultTableModel();
+		model2.setColumnIdentifiers(columnNamesSelected);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -86,7 +122,7 @@ public class NuevoProyectoAdmin extends JDialog {
 					txtID.setColumns(10);
 					txtID.setBackground(SystemColor.inactiveCaptionBorder);
 					txtID.setBounds(90, 34, 116, 21);
-					txtID.setText("P-" + Empresa.getInstance().getMisClientes().size() + 1);
+					txtID.setText("P-" + (Empresa.getInstance().getMisProyectos().size() + 1));
 					panel_1.add(txtID);
 				}
 				{
@@ -96,7 +132,6 @@ public class NuevoProyectoAdmin extends JDialog {
 				}
 				{
 					txtNombre = new JTextField();
-					txtNombre.setEnabled(false);
 					txtNombre.setColumns(10);
 					txtNombre.setBackground(SystemColor.inactiveCaptionBorder);
 					txtNombre.setBounds(90, 63, 225, 21);
@@ -109,7 +144,19 @@ public class NuevoProyectoAdmin extends JDialog {
 				}
 				{
 					JComboBox cmbxLenguaje = new JComboBox();
-					cmbxLenguaje.setEnabled(false);
+					cmbxLenguaje.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							for (Trabajadores t : Empresa.getInstance().getMisTrabajadores()) {
+								if(t instanceof Programador){
+									Programador p = (Programador) t;
+									if(p.getLenguajes().equalsIgnoreCase((String)cmbxLenguaje.getSelectedItem())){
+										proSeleccionables.add(p);
+									}
+								}
+							}
+						}
+					});
+					cmbxLenguaje.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "C", "C++", "C#", "Java", "JavaScript", "Python"}));
 					cmbxLenguaje.setBackground(SystemColor.inactiveCaptionBorder);
 					cmbxLenguaje.setBounds(426, 63, 194, 21);
 					panel_1.add(cmbxLenguaje);
@@ -126,14 +173,13 @@ public class NuevoProyectoAdmin extends JDialog {
 				}
 				{
 					JComboBox cmbxEstado = new JComboBox();
-					cmbxEstado.setEnabled(false);
+					cmbxEstado.setModel(new DefaultComboBoxModel(new String[] {"Pendiente", "En proceso"}));
 					cmbxEstado.setBackground(SystemColor.inactiveCaptionBorder);
 					cmbxEstado.setBounds(426, 97, 135, 21);
 					panel_1.add(cmbxEstado);
 				}
 				{
-					JTextPane txtPaneDesc = new JTextPane();
-					txtPaneDesc.setEnabled(false);
+					txtPaneDesc = new JTextPane();
 					txtPaneDesc.setBackground(SystemColor.inactiveCaptionBorder);
 					txtPaneDesc.setBounds(90, 97, 225, 60);
 					panel_1.add(txtPaneDesc);
@@ -165,6 +211,12 @@ public class NuevoProyectoAdmin extends JDialog {
 			}
 			{
 				JButton btnFind = new JButton("");
+				btnFind.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						cli = Empresa.getInstance().findClienteByCed(txtFind.getText());
+						txtCliente.setText(cli.getNombre());
+					}
+				});
 				Image find = new ImageIcon(this.getClass().getResource("/find.png")).getImage();
 				btnFind.setIcon(new ImageIcon(find));
 				btnFind.setBounds(268, 19, 33, 23);
@@ -183,42 +235,78 @@ public class NuevoProyectoAdmin extends JDialog {
 					panel_1.add(label);
 				}
 				{
-					JComboBox cmbxTipo = new JComboBox();
-					cmbxTipo.setEnabled(false);
+					cmbxTipo = new JComboBox();
+					cmbxTipo.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							if(cmbxTipo.getSelectedIndex()==1)
+								loadTableJefesDisp();
+							if(cmbxTipo.getSelectedIndex()==2)
+								loadTableDiseDisp();
+							if(cmbxTipo.getSelectedIndex()==3)
+								loadTablePlanDisp();
+							if(cmbxTipo.getSelectedIndex()==4)
+								loadTablePrograDisp();
+						}
+					});
 					cmbxTipo.setBackground(SystemColor.inactiveCaptionBorder);
 					cmbxTipo.setBounds(62, 21, 159, 21);
 					panel_1.add(cmbxTipo);
 				}
 				{
 					JScrollPane scrollPane = new JScrollPane();
-					scrollPane.setEnabled(false);
 					scrollPane.setBounds(12, 52, 307, 99);
 					panel_1.add(scrollPane);
+					
+					tableDisp = new JTable();
+					tableDisp.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+					tableDisp.setModel(model);
+					scrollPane.setViewportView(tableDisp);
 				}
 				{
 					JScrollPane scrollPane = new JScrollPane();
-					scrollPane.setEnabled(false);
 					scrollPane.setBounds(386, 52, 307, 99);
 					panel_1.add(scrollPane);
+					{
+						tableSelected = new JTable();
+						tableSelected.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+						tableSelected.setModel(model2);
+						scrollPane.setViewportView(tableSelected);
+					}
 				}
 				{
 					JButton btnDer = new JButton("");
 					btnDer.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
+							if(tSelected.size() == 5){
+								JOptionPane.showMessageDialog(null, "Máximo de trabajadores alcanzado.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+							}else{
+							int index = tableDisp.getSelectedRow();
+							String nombre = (String) tableDisp.getModel().getValueAt(index, 0);
+							Trabajadores t = Empresa.getInstance().findTrabajadorByNombre(nombre);
+							tSelected.add(t);
+							loadTableSelected();
+							}
 						}
 					});
 					Image der = new ImageIcon(this.getClass().getResource("/derTable.png")).getImage();
 					btnDer.setIcon(new ImageIcon(der));
-					btnDer.setEnabled(false);
 					btnDer.setBackground(SystemColor.inactiveCaptionBorder);
 					btnDer.setBounds(336, 69, 38, 25);
 					panel_1.add(btnDer);
 				}
 				{
 					JButton btnIzq = new JButton("");
+					btnIzq.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							int index = tableSelected.getSelectedRow();
+							String nombre = (String) tableSelected.getModel().getValueAt(index, 0);
+							Trabajadores t = Empresa.getInstance().findTrabajadorByNombre(nombre);
+							tSelected.remove(t);
+							loadTableSelected();
+						}
+					});
 					Image izq = new ImageIcon(this.getClass().getResource("/izqTable.png")).getImage();
 					btnIzq.setIcon(new ImageIcon(izq));
-					btnIzq.setEnabled(false);
 					btnIzq.setBackground(SystemColor.inactiveCaptionBorder);
 					btnIzq.setBounds(336, 107, 38, 25);
 					panel_1.add(btnIzq);
@@ -235,6 +323,11 @@ public class NuevoProyectoAdmin extends JDialog {
 				JButton btnNext = new JButton("");
 				btnNext.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						if(txtCliente.getText().equalsIgnoreCase("") || txtNombre.getText().equalsIgnoreCase("") || cmbxLenguaje.getSelectedIndex() == 0 || txtPaneDesc.getText().equalsIgnoreCase("")){
+							JOptionPane.showMessageDialog(null, "Por favor llenar todos los campos.", "ERROR", JOptionPane.ERROR_MESSAGE);
+						}else if(tSelected.size() < 4){
+							JOptionPane.showMessageDialog(null, "Seleccione al menos 4 trabajadores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+						}else{
 						setBounds(100, 100, 520, 330);
 						setLocationRelativeTo(null);
 						setTitle("Nuevo contrato");
@@ -242,6 +335,7 @@ public class NuevoProyectoAdmin extends JDialog {
 						panelProyecto.setVisible(false);
 						panelContrato.setEnabled(true);
 						panelContrato.setVisible(true);
+						}
 					}
 				});
 				Image next1 = new ImageIcon(this.getClass().getResource("/nexticon.png")).getImage();
@@ -292,7 +386,7 @@ public class NuevoProyectoAdmin extends JDialog {
 			txtIDCont.setColumns(10);
 			txtIDCont.setBackground(SystemColor.inactiveCaptionBorder);
 			txtIDCont.setBounds(94, 27, 131, 21);
-			txtIDCont.setText("C-" + Empresa.getInstance().getMisClientes().size() + 1);
+			txtIDCont.setText("C-" + (Empresa.getInstance().getMisContratos().size() + 1));
 			panelContrato.add(txtIDCont);
 		}
 		{
@@ -313,35 +407,23 @@ public class NuevoProyectoAdmin extends JDialog {
 			label.setBounds(12, 63, 83, 16);
 			panelContrato.add(label);
 		}
-		{
-			txtFechaIni = new JTextField();
-			txtFechaIni.setColumns(10);
-			txtFechaIni.setBackground(SystemColor.inactiveCaptionBorder);
-			txtFechaIni.setBounds(94, 60, 131, 21);
-			panelContrato.add(txtFechaIni);
-		}
+		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(94, 59, 131, 21);
+		panelContrato.add(dateChooser);
 		{
 			JLabel label = new JLabel("Fecha Final: ");
 			label.setBounds(251, 63, 74, 16);
 			panelContrato.add(label);
 		}
-		{
-			txtFechaFinal = new JTextField();
-			txtFechaFinal.setColumns(10);
-			txtFechaFinal.setBackground(SystemColor.inactiveCaptionBorder);
-			txtFechaFinal.setBounds(325, 59, 148, 21);
-			panelContrato.add(txtFechaFinal);
-		}
+		
+		JDateChooser dateChooser_1 = new JDateChooser();
+		dateChooser_1.setBounds(325, 59, 148, 21);
+		panelContrato.add(dateChooser_1);
 		{
 			JLabel label = new JLabel("Proyecto: ");
 			label.setBounds(12, 95, 64, 16);
 			panelContrato.add(label);
-		}
-		{
-			JComboBox comboBox = new JComboBox();
-			comboBox.setBackground(SystemColor.inactiveCaptionBorder);
-			comboBox.setBounds(86, 92, 146, 21);
-			panelContrato.add(comboBox);
 		}
 		JButton btnBack = new JButton("");
 		btnBack.addActionListener(new ActionListener() {
@@ -367,6 +449,39 @@ public class NuevoProyectoAdmin extends JDialog {
 			
 		}
 		JButton btnSave = new JButton("");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(fechaInicio == null || fechaFinal == null){
+					JOptionPane.showMessageDialog(null, "Por favor elija las fechas correspondientes.", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}else{
+					/////////////Proyecto///////////////
+					String id = txtID.getText();
+					String nombreProyecto = txtNombre.getText();
+					String descripcion = txtPaneDesc.getText();
+					String lenguaje = (String)cmbxLenguaje.getSelectedItem();
+					String estado = null;
+					
+					Proyecto proyecto = new Proyecto(id, nombreProyecto, descripcion, tSelected, lenguaje, estado);
+					cli.addProyecto(proyecto);
+					Empresa.getInstance().getMisProyectos().add(proyecto);	
+					/////////////Contrato///////////////
+					
+					String idcon  = txtIDCont.getText();
+					fechaInicio = dateChooser.getDate();
+					fechaFinal = dateChooser_1.getDate();
+					long moto = 0;
+					for (Trabajadores t : tSelected) {
+						moto += t.getSalario();
+					}
+					int tiempo = (int) ((fechaFinal.getTime() - fechaInicio.getTime()) / (1000*60*60*24));
+					long monto = (long) ((tiempo*model2.getRowCount()*8*moto)*1.15);
+				
+					Contrato contrato = new Contrato(fechaInicio, fechaFinal, idcon, cli, proyecto, monto);
+					Empresa.getInstance().getMisContratos().add(contrato);	
+					JOptionPane.showMessageDialog(null, "Operación Realizada Satisfactoriamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
 		Image save = new ImageIcon(this.getClass().getResource("/save_button.png")).getImage();
 		btnSave.setIcon(new ImageIcon(save));
 		btnSave.setBackground(SystemColor.inactiveCaptionBorder);
@@ -384,5 +499,74 @@ public class NuevoProyectoAdmin extends JDialog {
 		label_1.setBounds(12, 217, 260, 50);
 		panelContrato.add(label_1);
 		
+		textField = new JTextField();
+		textField.setEditable(false);
+		textField.setBounds(94, 93, 131, 21);
+		textField.setText("P-" + (Empresa.getInstance().getMisProyectos().size() + 1));
+		panelContrato.add(textField);
+		textField.setColumns(10);
+		
+	}
+	public static void loadTableJefesDisp() {
+		model.setRowCount(0);
+		fila = new Object[model.getColumnCount()];
+		for (int i = 0; i < Empresa.getInstance().getMisTrabajadores().size(); i++) {
+			if(Empresa.getInstance().getMisTrabajadores().get(i) instanceof JefeProyecto){
+				JefeProyecto jefe = (JefeProyecto) Empresa.getInstance().getMisTrabajadores().get(i);
+
+					fila[0] = jefe.getNombre();
+					fila[1] = jefe.getEvaluacion();
+			}
+			model.addRow(fila);
+		}
+		
+	}
+	public static void loadTableDiseDisp() {
+		model.setRowCount(0);
+		fila = new Object[model.getColumnCount()];
+		for (int i = 0; i < Empresa.getInstance().getMisTrabajadores().size(); i++) {
+			if(Empresa.getInstance().getMisTrabajadores().get(i) instanceof Designer){
+				Designer jefe = (Designer) Empresa.getInstance().getMisTrabajadores().get(i);
+
+					fila[0] = jefe.getNombre();
+					fila[1] = jefe.getEvaluacion();
+			}
+			model.addRow(fila);
+		}
+		
+	}
+	public static void loadTablePlanDisp() {
+		model.setRowCount(0);
+		fila = new Object[model.getColumnCount()];
+		for (int i = 0; i < Empresa.getInstance().getMisTrabajadores().size(); i++) {
+			if(Empresa.getInstance().getMisTrabajadores().get(i) instanceof Planificador){
+				Planificador jefe = (Planificador) Empresa.getInstance().getMisTrabajadores().get(i);
+					fila[0] = jefe.getNombre();
+					fila[1] = jefe.getEvaluacion();
+			}
+			model.addRow(fila);
+		}
+		
+	}
+	public static void loadTablePrograDisp() {
+		model.setRowCount(0);
+		fila = new Object[model.getColumnCount()];
+		for (Programador p : proSeleccionables) {
+			if(p.getProyecto() == null){
+				fila[0] = p.getNombre();
+				fila[1] = p.getEvaluacion();
+			}
+			model.addRow(fila);
+		}
+		
+	}
+	public static void loadTableSelected(){
+		model2.setRowCount(0);
+		fila2 = new Object[model2.getColumnCount()];
+		for (Trabajadores t : tSelected){
+			fila2[0] = t.getNombre();
+			fila2[1] = t.getEvaluacion();
+			model2.addRow(fila2);
+		}
 	}
 }

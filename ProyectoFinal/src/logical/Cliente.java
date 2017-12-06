@@ -7,7 +7,7 @@ public class Cliente {
 	private String cedula;
 	private String nombre;
 	private String direccion;
-	private ArrayList<Proyecto> misProyectos;
+	private ArrayList<Proyecto> misProyectos = new ArrayList<>();
 	
 	public void addProyecto(Proyecto p){
 		misProyectos.add(p);

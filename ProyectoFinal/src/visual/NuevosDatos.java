@@ -43,9 +43,9 @@ import javax.swing.JComboBox;
 import javax.swing.JTextPane;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ListSelectionModel;
-import datechooser.beans.DateChooserCombo;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import com.toedter.calendar.JDateChooser;
 
 public class NuevosDatos extends JDialog {
 
@@ -68,6 +68,8 @@ public class NuevosDatos extends JDialog {
 	private JComboBox cmbxTipo;
 	private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	private Date fechaActual = new Date();
+	private Date fechaInicio;
+	private Date fechaFinal;
 	private static DefaultTableModel model;
 	private static DefaultTableModel model2;
 	private static Object[] fila;
@@ -192,6 +194,10 @@ public class NuevosDatos extends JDialog {
 		JButton btnNext = new JButton("");
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(txtNombre.getText().equalsIgnoreCase("") || txtCedula.getText().equalsIgnoreCase("") || txtDireccion.getText().equalsIgnoreCase("")){
+					JOptionPane.showMessageDialog(null, "Algunos campos están vacíos", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+			else{
 				setBounds(100, 100, 737, 494);
 				setLocationRelativeTo(null);
 				setTitle("Nuevo Proyecto");
@@ -202,6 +208,7 @@ public class NuevosDatos extends JDialog {
 				panelContrato.setVisible(false);
 				panelContrato.setEnabled(false);
 				txtCliente.setText(txtNombre.getText());
+			}
 				
 			}
 		});
@@ -219,6 +226,10 @@ public class NuevosDatos extends JDialog {
 		Image nextP = new ImageIcon(this.getClass().getResource("/nexticon.png")).getImage();
 		Image back1 = new ImageIcon(this.getClass().getResource("/backicon.png")).getImage();
 		Image footimage2 = new ImageIcon(this.getClass().getResource("/footimage.png")).getImage();
+		
+		panelContrato = new JPanel();
+		panelContrato.setLayout(null);
+		panelContrato.setVisible(false);
 		
 		panelProyecto = new JPanel();
 		panelProyecto.setEnabled(false);
@@ -274,11 +285,7 @@ public class NuevosDatos extends JDialog {
 					if(t instanceof Programador){
 						Programador p = (Programador) t;
 						if(p.getLenguajes().equalsIgnoreCase((String)cmbxLenguaje.getSelectedItem())){
-							for (Programador pr : proSeleccionables) {
-								if(p != pr){
-									proSeleccionables.add(p);
-								}
-							}
+							proSeleccionables.add(p);
 						}
 					}
 				}
@@ -400,15 +407,26 @@ public class NuevosDatos extends JDialog {
 		JButton btnNextProyect = new JButton("");
 		btnNextProyect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setBounds(100, 100, 495, 303);
-				setLocationRelativeTo(null);
-				setTitle("Nuevo Contrato");
-				panelCliente.setVisible(false);
-				panelCliente.setEnabled(false);
-				panelProyecto.setEnabled(false);
-				panelProyecto.setVisible(false);
-				panelContrato.setVisible(true);
-				panelContrato.setEnabled(true);
+				if(txtNombrePro.getText().equalsIgnoreCase("") || txtPaneDesc.getText().equalsIgnoreCase("")){
+					JOptionPane.showMessageDialog(null, "Algunos campos están vacíos.", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}else if(cmbxLenguaje.getSelectedIndex() == 0){
+					JOptionPane.showMessageDialog(null, "Lenguaje no seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}else if(tSelected.size() < 4){
+					JOptionPane.showMessageDialog(null, "Debe seleccionar al menos 4 trabajadores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+				else{
+					setBounds(100, 100, 495, 303);
+					setLocationRelativeTo(null);
+					setTitle("Nuevo Contrato");
+					panelCliente.setVisible(false);
+					panelCliente.setEnabled(false);
+					panelProyecto.setEnabled(false);
+					panelProyecto.setVisible(false);
+					panelContrato.setVisible(true);
+					panelContrato.setEnabled(true);
+					txtClienteCont.setText(txtNombre.getText());
+					txtProyecto.setText(txtIDProy.getText());
+				}
 			}
 		});
 		btnNextProyect.setIcon(new ImageIcon(nextP));
@@ -447,10 +465,6 @@ public class NuevosDatos extends JDialog {
 		label_15.setIcon(new ImageIcon(footimage2));
 		label_15.setBounds(12, 386, 260, 50);
 		panel_1.add(label_15);
-		
-		panelContrato = new JPanel();
-		panelContrato.setLayout(null);
-		panelContrato.setVisible(false);
 		panelContrato.setEnabled(false);
 		panelContrato.setBackground(Color.WHITE);
 		panelContrato.setBounds(0, 0, 483, 368);
@@ -483,9 +497,27 @@ public class NuevosDatos extends JDialog {
 		label_18.setBounds(12, 63, 83, 16);
 		panelContrato.add(label_18);
 		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setDateFormatString("d MMM, yyyy");
+		dateChooser.getCalendarButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		dateChooser.setBounds(94, 59, 131, 21);
+		panelContrato.add(dateChooser);
+		
 		JLabel label_19 = new JLabel("Fecha Final: ");
 		label_19.setBounds(251, 63, 74, 16);
 		panelContrato.add(label_19);
+		
+		JDateChooser dateChooser_1 = new JDateChooser();
+		dateChooser_1.setDateFormatString("d MMM, yyyy");
+		dateChooser_1.getCalendarButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		dateChooser_1.setBounds(325, 59, 148, 21);
+		panelContrato.add(dateChooser_1);
 		
 		JLabel label_21 = new JLabel("Proyecto: ");
 		label_21.setBounds(12, 95, 64, 16);
@@ -495,7 +527,6 @@ public class NuevosDatos extends JDialog {
 		txtProyecto.setEditable(false);
 		txtProyecto.setBounds(94, 92, 120, 21);
 		panelContrato.add(txtProyecto);
-		txtProyecto.setText(txtIDProy.getText());
 		txtProyecto.setColumns(10);
 		
 		JButton btnBackContracto = new JButton("");
@@ -520,14 +551,6 @@ public class NuevosDatos extends JDialog {
 		JLabel label_22 = new JLabel("Anterior");
 		label_22.setBounds(12, 196, 56, 16);
 		panelContrato.add(label_22);
-		
-		DateChooserCombo dateChooserCombo = new DateChooserCombo();
-		dateChooserCombo.setBounds(94, 59, 155, 20);
-		panelContrato.add(dateChooserCombo);
-		
-		DateChooserCombo dateChooserCombo_1 = new DateChooserCombo();
-		dateChooserCombo_1.setBounds(325, 59, 155, 20);
-		panelContrato.add(dateChooserCombo_1);
 		
 		JButton btnSave = new JButton("");
 		btnSave.addActionListener(new ActionListener() {
@@ -554,10 +577,8 @@ public class NuevosDatos extends JDialog {
 				/////////////Contrato///////////////
 				
 				String idcon  = txtIDCont.getText();
-				Calendar fechaIni = dateChooserCombo.getCurrent();
-				Date fechaInicio = fechaIni.getTime();
-				Calendar fechaF = dateChooserCombo_1.getCurrent();
-				Date fechaFinal = fechaF.getTime();
+				fechaInicio = dateChooser.getDate();
+				fechaFinal = dateChooser_1.getDate();
 				long moto = 0;
 				for (Trabajadores t : tSelected) {
 					moto += t.getSalario();
