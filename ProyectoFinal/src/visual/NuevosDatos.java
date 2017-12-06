@@ -181,7 +181,7 @@ public class NuevosDatos extends JDialog {
 		txtIDCli.setColumns(10);
 		txtIDCli.setBackground(SystemColor.inactiveCaptionBorder);
 		txtIDCli.setBounds(96, 33, 99, 21);
-		txtIDCli.setText("CL-" + Empresa.getInstance().getMisClientes().size() + 1);
+		txtIDCli.setText("CL-" + (Empresa.getInstance().getMisClientes().size() + 1));
 		panel.add(txtIDCli);
 		
 		JLabel label_4 = new JLabel("");
@@ -250,7 +250,7 @@ public class NuevosDatos extends JDialog {
 		txtIDProy.setColumns(10);
 		txtIDProy.setBackground(SystemColor.inactiveCaptionBorder);
 		txtIDProy.setBounds(90, 34, 116, 21);
-		txtIDProy.setText("P-" + Empresa.getInstance().getMisProyectos().size() + 1);
+		txtIDProy.setText("P-" + (Empresa.getInstance().getMisProyectos().size() + 1));
 		panel_2.add(txtIDProy);
 		
 		JLabel label_7 = new JLabel("Nombre:");
@@ -274,7 +274,11 @@ public class NuevosDatos extends JDialog {
 					if(t instanceof Programador){
 						Programador p = (Programador) t;
 						if(p.getLenguajes().equalsIgnoreCase((String)cmbxLenguaje.getSelectedItem())){
-							proSeleccionables.add(p);
+							for (Programador pr : proSeleccionables) {
+								if(p != pr){
+									proSeleccionables.add(p);
+								}
+							}
 						}
 					}
 				}
@@ -461,7 +465,7 @@ public class NuevosDatos extends JDialog {
 		txtIDCont.setColumns(10);
 		txtIDCont.setBackground(SystemColor.inactiveCaptionBorder);
 		txtIDCont.setBounds(94, 27, 131, 21);
-		txtIDCont.setText("C-" + Empresa.getInstance().getMisContratos().size() + 1);
+		txtIDCont.setText("C-" + (Empresa.getInstance().getMisContratos().size() + 1));
 		panelContrato.add(txtIDCont);
 		
 		JLabel label_17 = new JLabel("Cliente: ");

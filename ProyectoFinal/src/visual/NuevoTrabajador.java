@@ -98,7 +98,7 @@ public class NuevoTrabajador extends JDialog {
 				txtIDWorker.setBackground(SystemColor.inactiveCaptionBorder);
 				txtIDWorker.setEditable(false);
 				txtIDWorker.setBounds(82, 13, 179, 21);
-				txtIDWorker.setText("W-" + Empresa.getInstance().getMisTrabajadores().size() + 1);
+				txtIDWorker.setText("W-" + (Empresa.getInstance().getMisTrabajadores().size() + 1));
 				panel.add(txtIDWorker);
 				txtIDWorker.setColumns(10);
 			}
@@ -228,7 +228,7 @@ public class NuevoTrabajador extends JDialog {
 							lblDias.setVisible(false);
 							lblDias.setEnabled(false);
 						}
-						if(cmbxEspecializacion.getSelectedIndex() == 4){
+						else if(cmbxEspecializacion.getSelectedIndex() == 4){
 							lblFrecuenciaDe.setEnabled(true);
 							lblFrecuenciaDe.setVisible(true);
 							txtFrecuencia.setVisible(true);
@@ -241,6 +241,18 @@ public class NuevoTrabajador extends JDialog {
 							cmbxLenguaje.setVisible(false);
 							cmbxLenguaje.setEnabled(false);
 							
+						}
+						else{
+							lblFrecuenciaDe.setEnabled(false);
+							lblFrecuenciaDe.setVisible(false);
+							txtFrecuencia.setVisible(false);
+							txtFrecuencia.setEnabled(false);
+							lblDias.setVisible(false);
+							lblDias.setEnabled(false);
+							lblLenguaje.setEnabled(false);
+							lblLenguaje.setVisible(false);
+							cmbxLenguaje.setVisible(false);
+							cmbxLenguaje.setEnabled(false);
 						}
 					}
 				});
@@ -265,6 +277,15 @@ public class NuevoTrabajador extends JDialog {
 			}
 			{
 				txtFrecuencia = new JTextField();
+				txtFrecuencia.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char caracter = e.getKeyChar();
+					      if(((caracter < '0') || (caracter > '9')) && (caracter != '\b')){
+					         e.consume();
+					      }
+					}
+				});
 				txtFrecuencia.setBackground(SystemColor.inactiveCaptionBorder);
 				txtFrecuencia.setColumns(10);
 				txtFrecuencia.setVisible(false);
@@ -288,6 +309,7 @@ public class NuevoTrabajador extends JDialog {
 			}
 			{
 				cmbxLenguaje = new JComboBox();
+				cmbxLenguaje.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "C", "C++", "C#", "Java", "JavaScript", "Python"}));
 				cmbxLenguaje.setBackground(SystemColor.inactiveCaptionBorder);
 				cmbxLenguaje.setEnabled(false);
 				cmbxLenguaje.setVisible(false);
